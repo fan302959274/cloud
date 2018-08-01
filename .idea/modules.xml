@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/cloud-api/cloud-api.iml" filepath="$PROJECT_DIR$/cloud-api/cloud-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cloud-common/cloud-common.iml" filepath="$PROJECT_DIR$/cloud-common/cloud-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cloud-core/cloud-core.iml" filepath="$PROJECT_DIR$/cloud-core/cloud-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cloud-parent.iml" filepath="$PROJECT_DIR$/cloud-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cloud-registry/cloud-registry.iml" filepath="$PROJECT_DIR$/cloud-registry/cloud-registry.iml" />
+    </modules>
+  </component>
+</project>

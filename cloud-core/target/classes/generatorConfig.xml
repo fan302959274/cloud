@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+    <!--导入属性配置 -->
+    <properties resource="generator.properties"></properties>
+
+    <classPathEntry location="${spring.datasource.driver-path}"/>
+
+    <context id="ORATables" targetRuntime="MyBatis3">
+
+        <!--<jdbcConnection driverClass="oracle.jdbc.driver.OracleDriver"
+        connectionURL="jdbc:oracle:thin:@139.196.86.102:1521:orcl"
+        userId="cfbs4"
+        password="U710apre" />-->
+        <!-- 注释 -->
+        <commentGenerator >
+            <property name="suppressAllComments" value="true"/><!-- 是否取消注释 -->
+            <property name="suppressDate" value="false" /> <!-- 是否生成注释代时间戳-->
+        </commentGenerator>
+
+        <jdbcConnection driverClass="${spring.datasource.driver-class-name}"
+                        connectionURL="${spring.datasource.url}"
+                        userId="${spring.datasource.username}"
+                        password="${spring.datasource.password}"/>
+
+        <javaModelGenerator targetPackage="com.cloud.core.model" targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/>
+            <!--<property name="rootClass" value="BaseModel"/>-->
+        </javaModelGenerator>
+
+        <!-- 此处不变 -->
+        <sqlMapGenerator targetPackage="mapper" targetProject="src/main/resources">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+
+        <javaClientGenerator targetPackage="com.cloud.core.mapper" targetProject="src/main/java"
+                             type="XMLMAPPER">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+        <!-- 勿删 end  -->
+
+        <!-- 待生成的表 -->
+        <table tableName="tbl_param"/>
+
+    </context>
+</generatorConfiguration>
