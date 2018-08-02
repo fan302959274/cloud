@@ -18,6 +18,6 @@ public class TestServiceConfig {
 
     @Bean
     public RoundRobinRule feignContract() {
-        return new RoundRobinRule();
+        return new WeightedResponseTimeRule();
     }
 }
