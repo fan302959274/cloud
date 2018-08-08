@@ -12,6 +12,7 @@
         <module>cloud-core</module>
         <module>cloud-registry-server</module>
         <module>cloud-api</module>
+        <module>cloud-zuul</module>
     </modules>
 
     <!--终极父级依赖springboot包(所有子module都会继承父级的包:parent依赖的parent)-->
@@ -38,10 +39,6 @@
             <version>${spring-test.version}</version>
             <scope>test</scope>
         </dependency>
-
-
-
-
 
     </dependencies>
     <!--差异化pom包(每个子模块各自依赖)-->
@@ -133,6 +130,15 @@
                 <artifactId>spring-cloud-config-server</artifactId>
                 <version>2.0.0.RELEASE</version>
             </dependency>
+
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-zuul</artifactId>
+                <version>1.4.0.RELEASE</version>
+            </dependency>
+
+
+
 
 
         </dependencies>
