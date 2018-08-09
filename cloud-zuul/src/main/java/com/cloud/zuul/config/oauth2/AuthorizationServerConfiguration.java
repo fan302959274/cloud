@@ -76,4 +76,8 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
         tokenServices.setTokenStore(tokenStore);
         return tokenServices;
     }
+
+
+
+
 }
