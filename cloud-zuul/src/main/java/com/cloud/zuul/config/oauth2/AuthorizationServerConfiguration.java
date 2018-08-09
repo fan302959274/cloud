@@ -1,5 +1,6 @@
 package com.cloud.zuul.config.oauth2;
 
+import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,7 +23,7 @@ import javax.sql.DataSource;
 public class AuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {
 
     @Autowired
-    private DataSource dataSource;
+    private HikariDataSource dataSource;
 
     @Bean // 声明TokenStore实现
     public TokenStore tokenStore() {
