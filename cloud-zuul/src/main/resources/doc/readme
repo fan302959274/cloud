@@ -1,0 +1,1 @@
+1、本版本的oauth2由于包版本的问题需要前台在请求时的Header中带上accept application/json不然默认会被jackson-dataformat-xml转换为xml格式
