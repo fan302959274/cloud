@@ -2,7 +2,7 @@ package com.cloud.zuul.config.oauth2;
 
 import java.io.Serializable;
 
-public class User implements Serializable{
+public class User implements Serializable {
     private String username;
     private String password;
 

@@ -16,8 +16,6 @@ import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 
-import javax.sql.DataSource;
-
 @Configuration
 @EnableAuthorizationServer
 public class AuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {
@@ -76,8 +74,6 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
         tokenServices.setTokenStore(tokenStore);
         return tokenServices;
     }
-
-
 
 
 }
