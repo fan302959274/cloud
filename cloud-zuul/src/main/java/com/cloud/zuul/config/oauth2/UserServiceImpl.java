@@ -17,9 +17,10 @@ public class UserServiceImpl implements UserService {
         user.setUsername("10086");
 
         String password = "123456";
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String hashedPassword = passwordEncoder.encode(password);
-        user.setPassword(hashedPassword);
+//        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+//        String hashedPassword = passwordEncoder.encode(password);
+//        user.setPassword(hashedPassword);
+        user.setPassword(password);
         return new CustomUserDetails(user);
     }
 
