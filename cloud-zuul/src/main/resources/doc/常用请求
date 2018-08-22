@@ -1,0 +1,2 @@
+请求access_token:http://localhost:8764/oauth/token?grant_type=client_credentials
+容器包含beans:http://localhost:8764/beans?access_token=940e4d8c-6fc4-47af-b93b-517a83a77ee2
