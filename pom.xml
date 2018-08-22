@@ -14,6 +14,7 @@
         <module>cloud-api</module>
         <module>cloud-zuul</module>
         <module>cloud-zipkin</module>
+        <module>cloud-web</module>
     </modules>
 
     <!--终极父级依赖springboot包(所有子module都会继承父级的包:parent依赖的parent)-->

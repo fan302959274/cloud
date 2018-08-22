@@ -1,0 +1,161 @@
+<div class="panel-body" style="padding-bottom:0px;padding-top:0px;">
+    <div class="panel panel-default">
+        <div class="panel-heading">参数添加</div>
+        <div class="panel-body">
+            <form id="edit_form" class="form-horizontal">
+
+                <div class="row">
+
+                    <input type="hidden" class="form-control" id="id" name="id" th:value="${data.id}" placeholder="请输入名字"/>
+                    <div class="form-group">
+                        <label for="videoName" class="col-sm-1 control-label">视频名称</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" id="videoName" th:value="${data.videoName}" name="videoName" placeholder="请输入名字"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="videoDuration" class="col-sm-1 control-label">视频时长</label>
+                        <div class="col-sm-2">
+                            <input type="number" class="form-control" id="videoDuration" th:value="${data.videoDuration}" name="videoDuration" placeholder="分钟"/>
+                        </div>
+                        <div class="col-sm-2">
+                            <input type="number" class="form-control" id="videoDuration1" name="videoDuration1" placeholder="秒"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="videoViewPath" class="col-sm-1 control-label">视频连接</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" id="videoViewPath" th:value="${data.videoViewPath}" name="videoViewPath" placeholder="视频连接"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="videoSize" class="col-sm-1 control-label">视频大小</label>
+                        <div class="col-sm-4">
+                            <input type="number" class="form-control" id="videoSize" th:value="${data.videoSize}" name="videoSize" placeholder="兆"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="videoType" class="col-sm-1 control-label">类型</label>
+                        <div class="col-sm-4">
+                            <select name="videoType" id="videoType"
+                                    class="form-control">
+                                <option value="">全部</option>
+                                <option th:each="type:${video_type_list}" th:value="${type.id}" th:attr="selected=${#strings.equals(data.videoType,type.id)}"
+                                        th:text="${type.paramValue}"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="videoPoster" class="col-sm-1 control-label">视频封面</label>
+                        <div class="col-sm-4">
+                            <img  class="carousel-inner img-responsive img-rounded" th:attr="src=${data.videoPoster}" />
+                            <input type="file" class="form-control" id="videoPoster" name="videoPoster" th:value="${data.videoPoster}" placeholder="视频封面"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="videoTag" class="col-sm-1 control-label">标签</label>
+                        <div class="col-sm-4 checkbox">
+                            <label th:each="tag:${video_tag_list}">
+                                <input type="checkbox" th:value="${tag.id}" th:attr="checked=${#strings.contains(data.videoTag,tag.id)}"  th:text="${tag.paramValue}" name="videoTag"
+                                       id="videoTag"/>
+                            </label>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="videoIntroduction" class="col-sm-1 control-label">视频介绍</label>
+                        <div class="col-sm-4">
+                            <textarea class="form-control" th:value="${data.videoIntroduction}" th:text="${data.videoIntroduction}" id="videoIntroduction" name="videoIntroduction" placeholder="视频介绍"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-offset-1 col-sm-8">
+                            <button type="submit" class="btn btn-success">保存</button>
+                            <button type="button" id="return" class="btn btn-default">返回</button>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+
+<script>
+
+    $(function () {
+        $("#edit_form").validate({
+            rules: {
+                videoName: {
+                    required: true
+                }
+            },
+            messages: {
+                videoName: {
+                    required: "请输名称",
+                }
+            },
+            submitHandler: function () {
+                var videoTags="";
+                $("input[name='videoTag']:checked").each(function(i){
+                    videoTags+=$(this).val()+",";
+                });
+                videoTags=videoTags.substring(0,videoTags.lastIndexOf(","));
+
+                $.ajaxFileUpload({
+                    method: "POST",
+                    url: "/video/update?time=" + (new Date()).getTime(),
+                    secureuri: true,
+                    fileElementId: 'videoPoster',                        //文件选择框的id属性
+                    data: {
+                        "id": $("#edit_form #id").val(),
+                        "videoName": $("#edit_form #videoName").val(),
+                        "videoDuration": $("#edit_form #videoDuration").val(),
+                        "videoSize": $("#edit_form #videoSize").val(),
+                        "videoType": $("#edit_form #videoType").val(),
+                        "videoViewPath": $("#edit_form #videoViewPath").val(),
+                        "videoIntroduction":$("#edit_form #videoIntroduction").val(),
+                        "videoTag": videoTags
+                    },//自定义参数,
+                    complete: function (data, status, e) {
+                        if(!(data.responseXML.firstChild.childNodes[0].innerHTML=='20000')){
+                            alert(data.responseXML.firstChild.childNodes[1].innerHTML);
+                        }else{
+                            $.ajax({
+                                type: "GET",
+                                url: '/video/main',
+                                success: function (data) {
+                                    $('#content').html(data);
+                                }
+                            });
+                        }
+
+
+                    }, error: function (data, status, e) {
+                        alert("操作失败，请再次操作！")
+                        //上传失败之后的操作
+                    }
+                });
+            }
+        });
+
+        $("#return").click(function () {
+            $.ajax({
+                type: "GET",
+                url: '/video/main',
+                success: function (data) {
+                    $('#content').html(data);
+                }
+            });
+        });
+    });
+
+
+</script>

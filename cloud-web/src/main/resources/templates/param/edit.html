@@ -1,0 +1,124 @@
+<div class="panel-body" style="padding-bottom:0px;padding-top:0px;">
+    <div class="panel panel-default">
+        <div class="panel-heading">参数修改</div>
+        <div class="panel-body">
+            <form id="edit_form" class="form-horizontal">
+
+                <div class="row">
+                    <input type="hidden" class="form-control" id="id" name="id"
+                           th:value="${data.id}"
+                           placeholder="请输入名字"/>
+
+                    <div class="form-group">
+                        <label for="paramValue" class="col-sm-1 control-label">参数名称</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" id="paramValue" name="paramValue"
+                                   th:value="${data.paramValue}"
+                                   placeholder="请输入名字"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="paramType" class="col-sm-1 control-label">参数类型</label>
+                        <div class="col-sm-2">
+                            <input type="number" class="form-control" id="paramType" name="paramType"
+                                   th:value="${data.paramType}"
+                                   placeholder="参数类型"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="paramCode" class="col-sm-1 control-label">参数编码</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" id="paramCode" name="paramCode"
+                                   th:value="${data.paramCode}" placeholder="参数编码"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="paramDesc" class="col-sm-1 control-label">参数描述</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" id="paramDesc" name="paramDesc"
+                                   th:value="${data.paramDesc}" placeholder="参数描述"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="paramUrl" class="col-sm-1 control-label">参数连接</label>
+                        <div class="col-sm-4">
+                            <img  class="carousel-inner img-responsive img-rounded" th:attr="src=${data.paramUrl}" />
+                            <input type="file" class="form-control" id="paramUrl" name="paramUrl"
+                                   th:value="${data.paramUrl}" placeholder="参数连接"/>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <div class="col-sm-offset-1 col-sm-8">
+                            <button type="submit" class="btn btn-success">保存</button>
+                            <button type="button" id="return" class="btn btn-default">返回</button>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+    $(function () {
+        $("#edit_form").validate({
+            rules: {
+                paramName: {
+                    required: true
+                }
+            },
+            messages: {
+                paramName: {
+                    required: "请输名称",
+                }
+            },
+            submitHandler: function () {
+                $.ajaxFileUpload({
+                    method: "POST",
+                    url: "/param/update?time=" + (new Date()).getTime(),
+                    secureuri: true,
+                    fileElementId: 'paramUrl',                        //文件选择框的id属性
+                    data: {
+                        "id":$("#edit_form #id").val(),
+                        "paramValue": $("#edit_form #paramValue").val(),
+                        "paramType": $("#edit_form #paramType").val(),
+                        "paramCode": $("#edit_form #paramCode").val(),
+                        "paramDesc": $("#edit_form #paramDesc").val()
+                    },//自定义参数,
+                    complete: function (data, s, status) {
+                        if (!(data.responseXML.firstChild.childNodes[0].innerHTML == '20000')) {
+                            alert(data.responseXML.firstChild.childNodes[1].innerHTML);
+                        } else {
+                            $.ajax({
+                                type: "GET",
+                                url: '/param/main',
+                                success: function (data) {
+                                    $('#content').html(data);
+                                }
+                            });
+                        }
+                    }, error: function (data, status, e) {
+                        alert("操作失败，请再次操作！")
+                        //上传失败之后的操作
+                    }
+                });
+
+
+            }
+        });
+
+        $("#return").click(function () {
+            change_list("/param/main");
+        });
+    });
+
+
+</script>
