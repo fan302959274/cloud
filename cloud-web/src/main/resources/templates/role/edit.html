@@ -91,7 +91,7 @@
             console.log(data.field);
             $.ajax({
                 method: "POST",
-                url: "/user/update?time=" + (new Date()).getTime(),
+                url: "/role/update?time=" + (new Date()).getTime(),
                 dataType: 'json',
                 data: data.field,//自定义参数,
                 success: function (data, s, status) {
