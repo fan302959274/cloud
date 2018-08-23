@@ -3,7 +3,6 @@ package com.cloud.core.facade;
 import com.cloud.common.req.TblAuthRolePageReq;
 import com.cloud.common.resp.CommonResp;
 import com.cloud.core.model.TblAuthRole;
-import com.cloud.core.model.TblParam;
 import com.cloud.core.model.extend.TblAuthRoleExtend;
 import com.cloud.core.service.AuthRoleService;
 import com.movie.util.response.PageResp;
@@ -15,9 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
-
-import java.util.Map;
 
 
 /**
@@ -34,7 +30,16 @@ public class RoleController {
     private AuthRoleService authRoleService;
 
 
-
+    /**
+     * @description 获取参数
+     * @author sh00859
+     * @date 2017/7/13
+     */
+    @RequestMapping(value = {"/get"})
+    @ResponseBody
+    public TblAuthRole selectByKey(@RequestParam(value = "id") Long id) {
+        return authRoleService.selectByKey(id);
+    }
 
     /**
      * @description 列表数据
@@ -58,7 +63,6 @@ public class RoleController {
     public CommonResp<TblAuthRole> save(@RequestBody TblAuthRole record) throws Exception {
         return authRoleService.save(record);
     }
-
 
 
     /**

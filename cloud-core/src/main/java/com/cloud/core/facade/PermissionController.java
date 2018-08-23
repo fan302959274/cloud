@@ -29,6 +29,16 @@ public class PermissionController {
     @Autowired
     private AuthPermissionService authPermissionService;
 
+    /**
+     * @description 获取参数
+     * @author sh00859
+     * @date 2017/7/13
+     */
+    @RequestMapping(value = {"/get"})
+    @ResponseBody
+    public TblAuthPermission selectByKey(@RequestParam(value = "id") Long id) {
+        return authPermissionService.selectByKey(id);
+    }
 
     /**
      * @description 列表数据

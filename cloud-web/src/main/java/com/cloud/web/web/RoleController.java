@@ -85,8 +85,8 @@ public class RoleController {
      * @date 2017/9/8
      */
     @RequestMapping(value = {"/edit"})
-    public ModelAndView edit(TblAuthRole tblAuthUser, Map map) throws Exception {
-        map.put("data", authRoleFeginService.selectByKey(tblAuthUser.getId()));
+    public ModelAndView edit(TblAuthRole tblAuthRole, Map map) throws Exception {
+        map.put("data", authRoleFeginService.selectByKey(tblAuthRole.getId()));
         return new ModelAndView("/role/edit", map);
     }
 

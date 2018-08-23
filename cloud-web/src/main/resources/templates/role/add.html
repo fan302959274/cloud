@@ -17,10 +17,10 @@
 
     <div class="layui-form-item">
         <div class="layui-inline">
-            <label class="layui-form-label">用户昵称</label>
+            <label class="layui-form-label">角色code</label>
             <div class="layui-input-inline">
-                <input type="text" id="nickname" name="nickname" lay-verify="required" autocomplete="off"
-                       placeholder="请输入用户昵称" class="layui-input"/>
+                <input type="text" id="code" name="code" lay-verify="required" autocomplete="off"
+                       placeholder="请输入角色code" class="layui-input"/>
             </div>
         </div>
     </div>
@@ -29,9 +29,20 @@
     <div class="layui-form-item">
 
         <div class="layui-inline">
-            <label class="layui-form-label">验证邮箱</label>
+            <label class="layui-form-label">角色名称</label>
             <div class="layui-input-inline">
-                <input type="text" id="email" name="email" lay-verify="email" autocomplete="off" placeholder="请输入用户邮箱"
+                <input type="text" id="name" name="name" lay-verify="required" autocomplete="off" placeholder="请输入角色名称"
+                       class="layui-input"/>
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+
+        <div class="layui-inline">
+            <label class="layui-form-label">角色类型</label>
+            <div class="layui-input-inline">
+                <input type="text" id="type" name="type" lay-verify="required" autocomplete="off" placeholder="请输入角色类型"
                        class="layui-input"/>
             </div>
         </div>

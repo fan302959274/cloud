@@ -30,6 +30,18 @@ public class UserController {
 
 
     /**
+     * @description 获取参数
+     * @author sh00859
+     * @date 2017/7/13
+     */
+    @RequestMapping(value = {"/get"})
+    @ResponseBody
+    public TblAuthUser selectByKey(@RequestParam(value = "id") Long id) {
+        return authUserService.selectByKey(id);
+    }
+
+
+    /**
      * @description 列表数据
      * @author sh00859
      * @date 2017/9/8
@@ -40,7 +52,6 @@ public class UserController {
         PageResp<TblAuthUser> resp = authUserService.selectListByPage(pageReq);
         return resp;
     }
-
 
     /**
      * @description 保存(此处需要将对象转换为json String类型ps:ajaxFileUpload版本太老, 重构太麻烦)
@@ -73,17 +84,6 @@ public class UserController {
     @ResponseBody
     public CommonResp<String> delete(@RequestParam(value = "ids") String ids) throws Exception {
         return authUserService.delete(ids);
-    }
-
-    /**
-     * @description 获取参数
-     * @author sh00859
-     * @date 2017/7/13
-     */
-    @RequestMapping(value = {"/get"})
-    @ResponseBody
-    public TblAuthUser selectByKey(@RequestParam(value = "id") Long id) {
-        return authUserService.selectByKey(id);
     }
 
 
