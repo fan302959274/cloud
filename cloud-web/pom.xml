@@ -10,8 +10,21 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>cloud-web</artifactId>
-
+    <packaging>jar</packaging>
     <dependencies>
+        <dependency>
+            <groupId>com.cloud</groupId>
+            <artifactId>cloud-common</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-eureka-server</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-feign</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
