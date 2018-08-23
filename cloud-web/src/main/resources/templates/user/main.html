@@ -23,7 +23,7 @@
         <button class="layui-btn layui-btn-danger batchDel">批量删除</button>
     </div>
 </blockquote>
-<div class="layui-form news_list" >
+<div class="layui-form news_list">
     <table class="layui-hide" id="test" lay-filter="demo"></table>
 </div>
 <script type="text/html" id="barDemo">
@@ -74,34 +74,45 @@
                 {type: 'checkbox'}
                 , {field: 'id', width: '10%', title: 'ID', sort: true}
                 , {field: 'nickname', width: '10%', title: '用户名'}
-                , {field: 'email', width: '10%', title: '性别', sort: true}
-                , {field: 'lastLoginTime', width: '10%', title: '城市'}
-                , {field: 'status', title: '签名', width: '10%'}
-                , {fixed: 'right', minwidth: '10%', align:'center', toolbar: '#barDemo'}
+                , {field: 'email', width: '10%', title: '邮箱', sort: true}
+                , {field: 'lastLoginTime', width: '10%', title: '最后登录时间'}
+                , {field: 'status', title: '状态', width: '10%'}
+                , {fixed: 'right', minwidth: '10%', align: 'center', toolbar: '#barDemo'}
             ]]
             , page: true
             , id: 'testReload'
         });
         //监听工具条
-        table.on('tool(demo)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+        table.on('tool(demo)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
             var data = obj.data //获得当前行数据
-                ,layEvent = obj.event; //获得 lay-event 对应的值
-            if(layEvent === 'detail'){
+                , layEvent = obj.event; //获得 lay-event 对应的值
+            if (layEvent === 'detail') {
                 layer.msg('查看操作');
-            } else if(layEvent === 'del'){
-                layer.confirm('真的删除行么', function(index){
+            } else if (layEvent === 'del') {
+                layer.confirm('真的删除行么', function (index) {
                     obj.del(); //删除对应行（tr）的DOM结构
                     layer.close(index);
                     //向服务端发送删除指令
+                    var ids = data.id;
+                    $.ajax({
+                        type: "POST",
+                        data: {"ids": ids},
+                        url: "/user/delete",
+                        success: function (data) {
+                            if ("0" == data.code) {
+                                window.location.reload(); //刷新本页面
+                            }
+                        }
+                    });
                 });
-            } else if(layEvent === 'edit'){
+            } else if (layEvent === 'edit') {
 //                layer.msg('编辑操作');
                 layer.open({
                     type: 2 //此处以iframe举例
                     , title: '添加用户'
                     , area: ['100%', '100%']
                     , shade: 0
-                    , content: '/user/edit?id='+obj.data.id
+                    , content: '/user/edit?id=' + obj.data.id
                     , yes: function () {
                         $(that).click();
                     }
