@@ -14,19 +14,25 @@
 
 <blockquote class="layui-elem-quote news_search">
     <div class="demoTable" id="layerDemo">
-        用户名：
+        权限名：
         <div class="layui-inline">
             <input class="layui-input" name="id" id="demoReload" autocomplete="off"/>
         </div>
         <button class="layui-btn" data-type="reload">搜索</button>
-        <button data-method="setTop" class="layui-btn layui-btn-normal newsAdd_btn">添加用户</button>
+        <button data-method="setTop" class="layui-btn layui-btn-normal newsAdd_btn">添加权限</button>
         <button class="layui-btn layui-btn-danger batchDel">批量删除</button>
     </div>
 </blockquote>
+
 <div class="layui-form news_list">
-    <table class="layui-hide" id="test"></table>
+    <table class="layui-hide" id="test" lay-filter="demo"></table>
 </div>
 
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 <script>
     layui.use('layer', function () { //独立版的layer无需执行这一句
@@ -67,14 +73,58 @@
             , url: '/permission/data'
             , cols: [[
                 {type: 'checkbox'}
-                , {field: 'id', width: '10%', title: 'ID', sort: true}
-                , {field: 'nickname', width: '10%', title: '用户名'}
-                , {field: 'email', width: '10%', title: '性别', sort: true}
-                , {field: 'lastLoginTime', minwidth: '10%', title: '城市'}
-                , {field: 'status', title: '签名', width: '10%'}
+                , {field: 'id', width: '10%', title: 'id', sort: true}
+                , {field: 'code', width: '10%', title: '权限对应code'}
+                , {field: 'name', width: '10%', title: '权限对应名称', sort: true}
+                , {field: 'description', minwidth: '10%', title: '描述'}
+                , {fixed: 'right', minwidth: '10%', align: 'center', toolbar: '#barDemo'}
             ]]
             , page: true
             , id: 'testReload'
+        });
+        //监听工具条
+        table.on('tool(demo)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+            var data = obj.data //获得当前行数据
+                , layEvent = obj.event; //获得 lay-event 对应的值
+            if (layEvent === 'detail') {
+                layer.msg('查看操作');
+            } else if (layEvent === 'del') {
+                layer.confirm('真的删除行么', function (index) {
+                    obj.del(); //删除对应行（tr）的DOM结构
+                    layer.close(index);
+                    //向服务端发送删除指令
+                    var ids = data.id;
+                    $.ajax({
+                        type: "POST",
+                        data: {"ids": ids},
+                        url: "/permission/delete",
+                        success: function (data) {
+                            if ("0" == data.code) {
+                                window.location.reload(); //刷新本页面
+                            }
+                        }
+                    });
+                });
+            } else if (layEvent === 'edit') {
+//                layer.msg('编辑操作');
+                layer.open({
+                    type: 2 //此处以iframe举例
+                    , title: '添加用户'
+                    , area: ['100%', '100%']
+                    , shade: 0
+                    , content: '/permission/edit?id=' + obj.data.id
+                    , yes: function () {
+                        $(that).click();
+                    }
+                    , btn2: function () {
+                        layer.closeAll();
+                    }
+                    , zIndex: layer.zIndex //重点1
+                    , success: function (layero) {
+                        layer.setTop(layero); //重点2
+                    }
+                });
+            }
         });
         var $ = layui.$, active = {
             reload: function () {
@@ -86,7 +136,7 @@
                         curr: 1 //重新从第 1 页开始
                     }
                     , where: {
-                        nickname: demoReload.val()
+                        name: demoReload.val()
                     }
                 });
             }
@@ -99,7 +149,7 @@
             var size = $('.layui-table-box').find("input[type=checkbox]:checked").length;
             if (size == 0) {
                 //配置一个透明的询问框
-                layer.msg('请选择需要删除的用户', {
+                layer.msg('请选择需要删除的权限', {
                     time: 2000 //20s后自动关闭
                 });
             } else {

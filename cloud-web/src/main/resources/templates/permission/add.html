@@ -17,10 +17,10 @@
 
     <div class="layui-form-item">
         <div class="layui-inline">
-            <label class="layui-form-label">用户昵称</label>
+            <label class="layui-form-label">权限code</label>
             <div class="layui-input-inline">
-                <input type="text" id="nickname" name="nickname" lay-verify="required" autocomplete="off"
-                       placeholder="请输入用户昵称" class="layui-input"/>
+                <input type="text" id="code" name="code" lay-verify="required" autocomplete="off"
+                       placeholder="请输入权限code" class="layui-input"/>
             </div>
         </div>
     </div>
@@ -29,9 +29,20 @@
     <div class="layui-form-item">
 
         <div class="layui-inline">
-            <label class="layui-form-label">验证邮箱</label>
+            <label class="layui-form-label">权限名称</label>
             <div class="layui-input-inline">
-                <input type="text" id="email" name="email" lay-verify="email" autocomplete="off" placeholder="请输入用户邮箱"
+                <input type="text" id="name" name="name" lay-verify="required" autocomplete="off" placeholder="请输入权限名称"
+                       class="layui-input"/>
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+
+        <div class="layui-inline">
+            <label class="layui-form-label">权限描述</label>
+            <div class="layui-input-inline">
+                <input type="text" id="description" name="description" lay-verify="required" autocomplete="off" placeholder="请输入权限描述"
                        class="layui-input"/>
             </div>
         </div>
@@ -44,7 +55,6 @@
         </div>
     </div>
 </form>
-
 
 
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
@@ -74,15 +84,6 @@
             }
         });
         /*]]>*/
-
-        //监听指定开关
-        form.on('switch(switchTest)', function (data) {
-            layer.msg('开关checked：' + (this.checked ? 'true' : 'false'), {
-                offset: '6px'
-            });
-            layer.tips('温馨提示：请注意开关状态的文字可以随意定义，而不仅仅是ON|OFF', data.othis)
-        });
-
 
 
         //监听提交
