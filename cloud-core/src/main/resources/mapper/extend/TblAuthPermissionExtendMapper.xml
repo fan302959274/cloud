@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cloud.core.mapper.extend.TblAuthPermissionExtendMapper">
+    <resultMap id="BaseResultMap" type="com.cloud.core.model.extend.TblAuthPermissionExtend" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="code" property="code" jdbcType="VARCHAR" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="description" jdbcType="VARCHAR" property="description" />
+        <result column="isrolehave" property="isrolehave" jdbcType="BIGINT" />
+    </resultMap>
+
+    <select id="selectRolePermissionByExample" resultMap="BaseResultMap" parameterType="java.util.Map">
+        SELECT
+        p.*,IFNULL(r.id, FALSE) AS isrolehave
+        FROM
+        tbl_auth_permission p
+        LEFT JOIN tbl_auth_role_permission rp ON p.id = rp.permission_id and rp.role_id = #{roleId}
+        LEFT JOIN tbl_auth_role r ON rp.role_id = r.id
+        WHERE 1=1
+        <if test="code != null and code !='' " >
+            AND p.`code` = #{code,jdbcType=VARCHAR}
+        </if>
+        <if test="name != null and name !='' " >
+            AND p.`name` LIKE concat(concat('%',#{name,jdbcType=VARCHAR}),'%')
+        </if>
+        limit #{offset},#{limit}
+    </select>
+
+    <select id="findUserPermissionByNickName" resultMap="com.cloud.core.mapper.TblAuthPermissionMapper.BaseResultMap" parameterType="java.lang.String">
+        SELECT
+        p.*
+        FROM
+        tbl_auth_permission p
+        LEFT JOIN tbl_auth_role_permission rp ON p.id = rp.permission_id
+        LEFT JOIN tbl_auth_role r ON rp.role_id = r.id
+        LEFT JOIN tbl_auth_user_role ur ON r.id = ur.role_id
+        LEFT JOIN tbl_auth_user u ON ur.user_id = u.id
+        WHERE u.nickname = #{nickname}
+    </select>
+
+
+
+
+</mapper>

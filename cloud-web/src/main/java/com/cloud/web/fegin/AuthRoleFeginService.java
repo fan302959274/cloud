@@ -79,6 +79,6 @@ public interface AuthRoleFeginService {
      * @date 2017/9/8
      */
     @RequestMapping(value = "/role/userroleallot", method = RequestMethod.POST)
-    public CommonResp<TblAuthRole> userroleallot(@RequestParam(value = "allotRoleIds") String allotRoleIds, @RequestParam(value = "noAllotRoleIds") String noAllotRoleIds, @RequestParam(value = "userId") String userId);
+    public CommonResp<TblAuthRole> userroleallot(@RequestParam(value = "allotRoleIds",required=false) String allotRoleIds, @RequestParam(value = "noAllotRoleIds",required=false) String noAllotRoleIds, @RequestParam(value = "userId") String userId);
 
 }

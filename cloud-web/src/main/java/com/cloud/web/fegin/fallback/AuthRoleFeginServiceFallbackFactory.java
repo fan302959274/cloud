@@ -52,6 +52,7 @@ public class AuthRoleFeginServiceFallbackFactory implements FallbackFactory<Auth
 
             @Override
             public CommonResp<TblAuthRole> userroleallot(String allotRoleIds, String noAllotRoleIds, String userId) {
+                logger.error(throwable.getMessage());
                 return null;
             }
         };

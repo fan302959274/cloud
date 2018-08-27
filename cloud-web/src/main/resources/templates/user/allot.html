@@ -8,9 +8,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
     <link rel="stylesheet" href="/plugins/layui/css/layui.css" media="all"/>
     <script src="/plugins/layui/layui.js" charset="utf-8"></script>
+    <script src="/js/jquery/jquery.js" charset="utf-8"></script>
     <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
 </head>
-<body style="margin: 10px;">
+<body style="margin: 10px;" class="layui-form">
 
 <blockquote class="layui-elem-quote news_search">
     <div class="demoTable" id="layerDemo">
@@ -26,17 +27,23 @@
 </div>
 
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">分配</a>
 
+    <div class="layui-form-item">
+        <input type="checkbox" name="switch" lay-skin="switch" lay-filter="isUserHaveFilter"/>
+
+    </div>
 </script>
 
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
-<script>
+<script th:inline="javascript">
+    var userId = [[${userId}]];
+    console.log(userId);
     layui.use('layer', function () { //独立版的layer无需执行这一句
         var $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句
         //触发事件
         var active = {
             setTop: function () {
+
                 var that = this;
                 //多窗口模式，层叠置顶
                 layer.open({
@@ -44,7 +51,7 @@
                     , title: '添加用户'
                     , area: ['100%', '100%']
                     , shade: 0
-                    , content: '/role/add'
+                    , content: '/role/userroledata'
                     , yes: function () {
                         $(that).click();
                     }
@@ -67,17 +74,31 @@
         var table = layui.table;
         table.render({
             elem: '#test'
-            , url: '/role/data'
+            , url: '/role/userroledata?userId='+userId
             , cols: [[
                 {type: 'checkbox'}
                 , {field: 'code', width: '20%', title: '编码'}
                 , {field: 'name', width: '20%', title: '名称', sort: true}
-                , {field: 'type', minwidth: '10%', title: '类型'}
-                , {fixed: 'right', minwidth: '50%', title: '操作',align: 'center', toolbar: '#barDemo'}
+                , {field: 'code', minwidth: '10%', title: '类型'}
+                , {fixed: 'right', minwidth: '40%', title: '操作', align: 'center', toolbar: '#barDemo'}
 
             ]]
             , page: true
-            , id: 'testReload'
+            , id: 'testReload,id,isuserhave'
+            , done: function (res) {
+                var tabledata = res.data;
+                for (var user in tabledata) {
+                    //这里才是真正的有效勾选
+                    var index = tabledata[user]['LAY_TABLE_INDEX'];
+                    $('.layui-table tr[data-index=' + index + '] input[type="checkbox"][name="switch"]').attr("value", tabledata[user].id);//设置需要分配的角色id值
+                    if (tabledata[user].isuserhave) {
+                        $('.layui-table tr[data-index=' + index + '] input[type="checkbox"][name="switch"]').prop('checked', true);
+                        $('.layui-table tr[data-index=' + index + '] input[type="checkbox"][name="switch"]').next().addClass('layui-form-onswitch');
+                    }
+
+                }
+
+            }
         });
         //监听工具条
         table.on('tool(demo)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
@@ -90,9 +111,8 @@
         var $ = layui.$, active = {
             reload: function () {
                 var demoReload = $('#demoReload');
-
                 //执行重载
-                table.reload('testReload', {
+                table.reload('testReload,id,isuserhave', {
                     page: {
                         curr: 1 //重新从第 1 页开始
                     }
@@ -105,6 +125,41 @@
         $('.demoTable .layui-btn').on('click', function () {
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
+        });
+
+    });
+
+    layui.use('form', function () {
+        var form = layui.form;
+        //各种基于事件的操作，下面会有进一步介绍
+        form.on('switch(isUserHaveFilter)', function (data) {
+            console.log(data.elem.checked); //开关是否开启，true或者false
+            console.log(userId);
+            console.log(data.value);
+            var params = "?userId=" + userId;
+            if (data.elem.checked) {
+
+                /*<![CDATA[*/
+                params += "&allotRoleIds=" + data.value;
+                /*]]>*/
+
+            } else {
+                /*<![CDATA[*/
+                params += "&noAllotRoleIds=" + data.value;
+                /*]]>*/
+            }
+
+
+            $.ajax({
+                type: "POST",
+                url: '/role/userroleallot' + params,
+                success: function (data) {
+                    layer.msg(data.msg);
+                }
+            });
+            return false;
+
+
         });
 
     });

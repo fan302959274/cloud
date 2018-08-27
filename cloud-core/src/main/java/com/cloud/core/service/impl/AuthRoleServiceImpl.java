@@ -168,13 +168,12 @@ public class AuthRoleServiceImpl implements AuthRoleService {
     public CommonResp<TblAuthRole> allotRole(String allotRoleIds, String noAllotRoleIds, String userId) {
         CommonResp<TblAuthRole> resp = new CommonResp<TblAuthRole>();
         try {
-            String[] allotRoleIdArr = allotRoleIds.split(",");
-            String[] noAllotRoleArr = noAllotRoleIds.split(",");
             List<Long> allotRoleIdList = new ArrayList<Long>();
             List<Long> noAllotRoleIdList = new ArrayList<Long>();
             TblAuthUserRoleExample example = new TblAuthUserRoleExample();
 
             if (StringUtils.isNotBlank(allotRoleIds)) {
+                String[] allotRoleIdArr = allotRoleIds.split(",");
                 for (String id : allotRoleIdArr) {
                     allotRoleIdList.add(Long.parseLong(id));
                 }
@@ -189,6 +188,7 @@ public class AuthRoleServiceImpl implements AuthRoleService {
             }
 
             if (StringUtils.isNotBlank(noAllotRoleIds)) {
+                String[] noAllotRoleArr = noAllotRoleIds.split(",");
                 for (String id : noAllotRoleArr) {
                     noAllotRoleIdList.add(Long.parseLong(id));
                 }

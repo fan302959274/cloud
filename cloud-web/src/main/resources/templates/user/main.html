@@ -130,19 +130,11 @@
                 //多窗口模式，层叠置顶
                 layer.open({
                     type: 2 //此处以iframe举例
-                    ,title: '当你选择该窗体时，即会在最顶端'
-                    ,area: ['500px', '400px']
+                    ,title: '角色分配'
+                    ,area: ['1000px', '600px']
                     ,shade: 0
                     ,maxmin: true
-                    ,content: '/user/allot'
-                    ,btn: ['继续弹出', '全部关闭'] //只是为了演示
-                    ,yes: function(){
-                        $(that).click();
-                    }
-                    ,btn2: function(){
-                        layer.closeAll();
-                    }
-
+                    ,content: '/user/allot/'+(data.id)
                     ,zIndex: layer.zIndex //重点1
                     ,success: function(layero){
                         layer.setTop(layero); //重点2

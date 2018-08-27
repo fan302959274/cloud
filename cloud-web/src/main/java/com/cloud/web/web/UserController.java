@@ -10,8 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Map;
@@ -71,9 +70,10 @@ public class UserController {
      * @author sh00859
      * @date 2017/9/8
      */
-    @RequestMapping(value = {"/allot"})
-    public String allot() throws Exception {
-        return "/user/allot";
+    @RequestMapping(value = {"/allot/{id}"})
+    public ModelAndView allot(@PathVariable String id, Map map) throws Exception {
+        map.put("userId", id);
+        return new ModelAndView("/user/allot", map);
     }
 
 

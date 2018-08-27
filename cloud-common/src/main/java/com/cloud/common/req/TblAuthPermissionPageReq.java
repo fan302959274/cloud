@@ -10,10 +10,10 @@ import com.cloud.common.entity.extend.TblAuthPermissionExtend;
  **/
 public class TblAuthPermissionPageReq extends TblAuthPermissionExtend {
 
-    private Integer page;
-    private Integer pageSize;
-    private Integer offset;
-    private Integer limit;
+    private Integer page = 1;
+    private Integer pageSize = 10;
+    private Integer offset = 0;
+    private Integer limit = 10;
 
     public Integer getPage() {
         return page;

@@ -6,7 +6,7 @@ import com.cloud.common.entity.TblAuthPermission;
 public class TblAuthPermissionExtend extends TblAuthPermission {
     private Long roleId;
 
-    private Boolean isRoleHave;
+    private Boolean isrolehave;
 
     public Long getRoleId() {
         return roleId;
@@ -16,11 +16,11 @@ public class TblAuthPermissionExtend extends TblAuthPermission {
         this.roleId = roleId;
     }
 
-    public Boolean getRoleHave() {
-        return isRoleHave;
+    public Boolean getIsrolehave() {
+        return isrolehave;
     }
 
-    public void setRoleHave(Boolean roleHave) {
-        isRoleHave = roleHave;
+    public void setIsrolehave(Boolean isrolehave) {
+        this.isrolehave = isrolehave;
     }
 }
