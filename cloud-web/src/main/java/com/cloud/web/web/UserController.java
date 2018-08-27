@@ -45,6 +45,39 @@ public class UserController {
 
 
     /**
+     * @description 添加界面
+     * @author sh00859
+     * @date 2017/9/8
+     */
+    @RequestMapping(value = {"/add"})
+    public String add() throws Exception {
+        return "/user/add";
+    }
+
+
+    /**
+     * @description 更新页面
+     * @author sh00859
+     * @date 2017/9/8
+     */
+    @RequestMapping(value = {"/edit"})
+    public ModelAndView edit(TblAuthUser tblAuthUser, Map map) throws Exception {
+        map.put("data", authUserFeginService.selectByKey(tblAuthUser.getId()));
+        return new ModelAndView("/user/edit", map);
+    }
+
+    /**
+     * @description 分配界面
+     * @author sh00859
+     * @date 2017/9/8
+     */
+    @RequestMapping(value = {"/allot"})
+    public String allot() throws Exception {
+        return "/user/allot";
+    }
+
+
+    /**
      * @description 列表数据
      * @author sh00859
      * @date 2017/9/8
@@ -58,17 +91,6 @@ public class UserController {
 
 
     /**
-     * @description 添加界面
-     * @author sh00859
-     * @date 2017/9/8
-     */
-    @RequestMapping(value = {"/add"})
-    public String add() throws Exception {
-        return "/user/add";
-    }
-
-
-    /**
      * @description 保存(此处需要将对象转换为json String类型ps:ajaxFileUpload版本太老, 重构太麻烦)
      * @author sh00859
      * @date 2017/9/8
@@ -77,18 +99,6 @@ public class UserController {
     @ResponseBody
     public CommonResp<TblAuthUser> save(TblAuthUser tblAuthUser) throws Exception {
         return authUserFeginService.save(tblAuthUser);
-    }
-
-
-    /**
-     * @description 更新页面
-     * @author sh00859
-     * @date 2017/9/8
-     */
-    @RequestMapping(value = {"/edit"})
-    public ModelAndView edit(TblAuthUser tblAuthUser, Map map) throws Exception {
-        map.put("data", authUserFeginService.selectByKey(tblAuthUser.getId()));
-        return new ModelAndView("/user/edit", map);
     }
 
     /**

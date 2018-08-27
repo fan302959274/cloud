@@ -12,103 +12,102 @@
 </head>
 <body style="margin: 10px;">
 
-
-<form class="layui-form" action="">
-
-    <div class="layui-form-item">
+<blockquote class="layui-elem-quote news_search">
+    <div class="demoTable" id="layerDemo">
+        角色名：
         <div class="layui-inline">
-            <label class="layui-form-label">用户昵称</label>
-            <div class="layui-input-inline">
-                <input type="text" id="nickname" name="nickname" lay-verify="nickname" autocomplete="off"
-                       placeholder="请输入用户昵称" class="layui-input"/>
-            </div>
+            <input class="layui-input" name="id" id="demoReload" autocomplete="off"/>
         </div>
+        <button class="layui-btn" data-type="reload">搜索</button>
     </div>
+</blockquote>
+<div class="layui-form news_list">
+    <table class="layui-hide" id="test" lay-filter="demo"></table>
+</div>
 
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">分配</a>
 
-    <div class="layui-form-item">
-
-        <div class="layui-inline">
-            <label class="layui-form-label">验证邮箱</label>
-            <div class="layui-input-inline">
-                <input type="text" id="email" name="email" lay-verify="email" autocomplete="off" placeholder="请输入用户邮箱"
-                       class="layui-input"/>
-            </div>
-        </div>
-    </div>
-
-    <div class="layui-form-item">
-        <div class="layui-input-block">
-            <button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
-            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-        </div>
-    </div>
-</form>
-
+</script>
 
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 <script>
-    layui.use(['form', 'layedit', 'laydate'], function () {
-        var form = layui.form,
-            $ = layui.jquery
-            , layer = layui.layer
-            , layedit = layui.layedit
-            , laydate = layui.laydate;
-
-
-        //创建一个编辑器
-        var editIndex = layedit.build('LAY_demo_editor');
-
-        //自定义验证规则(thymeleaf 识别不了小于号所以加上/*<![CDATA[*/)
-        /*<![CDATA[*/
-        form.verify({
-            nickname: function (value) {
-                if (value.length < 5) {
-                    return '昵称至少得5个字符';
-                }
-            }
-            , pass: [/(.+){6,12}$/, '密码必须6到12位']
-            , content: function (value) {
-                layedit.sync(editIndex);
-            }
-        });
-        /*]]>*/
-
-
-        //监听提交
-        form.on('submit(demo1)', function (data) {
-            console.log(data.field);
-            $.ajax({
-                method: "POST",
-                url: "/user/save?time=" + (new Date()).getTime(),
-                dataType: 'json',
-                data: data.field,//自定义参数,
-                success: function (data, s, status) {
-                    if (data.code != '0') {
-                        layer.alert(data.msg, {
-                            icon: 5,
-                            title: "提示"
-                        });
-                    } else {
-                        window.parent.location.reload(); //刷新父页面
-                        var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
-                        parent.layer.close(index);  // 关闭layer
+    layui.use('layer', function () { //独立版的layer无需执行这一句
+        var $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句
+        //触发事件
+        var active = {
+            setTop: function () {
+                var that = this;
+                //多窗口模式，层叠置顶
+                layer.open({
+                    type: 2 //此处以iframe举例
+                    , title: '添加用户'
+                    , area: ['100%', '100%']
+                    , shade: 0
+                    , content: '/role/add'
+                    , yes: function () {
+                        $(that).click();
                     }
-
-                }, error: function (data, status, e) {
-                    layer.alert("操作失败，请再次操作！", {
-                        icon: 5,
-                        title: "提示"
-                    });
-                    //上传失败之后的操作
-                }
-            });
-            return false;
+                    , btn2: function () {
+                        layer.closeAll();
+                    }
+                    , zIndex: layer.zIndex //重点1
+                    , success: function (layero) {
+                        layer.setTop(layero); //重点2
+                    }
+                });
+            }
+        };
+        $('#layerDemo .layui-btn').on('click', function () {
+            var othis = $(this), method = othis.data('method');
+            active[method] ? active[method].call(this, othis) : '';
         });
+    });
+    layui.use('table', function () {
+        var table = layui.table;
+        table.render({
+            elem: '#test'
+            , url: '/role/data'
+            , cols: [[
+                {type: 'checkbox'}
+                , {field: 'code', width: '20%', title: '编码'}
+                , {field: 'name', width: '20%', title: '名称', sort: true}
+                , {field: 'type', minwidth: '10%', title: '类型'}
+                , {fixed: 'right', minwidth: '50%', title: '操作',align: 'center', toolbar: '#barDemo'}
 
+            ]]
+            , page: true
+            , id: 'testReload'
+        });
+        //监听工具条
+        table.on('tool(demo)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+            var data = obj.data //获得当前行数据
+                , layEvent = obj.event; //获得 lay-event 对应的值
+            if (layEvent === 'detail') {
+                layer.msg(data.id);
+            }
+        });
+        var $ = layui.$, active = {
+            reload: function () {
+                var demoReload = $('#demoReload');
+
+                //执行重载
+                table.reload('testReload', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    , where: {
+                        name: demoReload.val()
+                    }
+                });
+            }
+        };
+        $('.demoTable .layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
 
     });
 </script>
-
 </body>
 </html>
