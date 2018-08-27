@@ -46,6 +46,22 @@ public class AuthUserFeginServiceFallbackFactory implements FallbackFactory<Auth
             public CommonResp<String> delete(String ids) {
                 return null;
             }
+
+            @Override
+            public TblAuthUser findByNickName(String nickname) {
+                return null;
+            }
+
+            @Override
+            public List<TblAuthPermission> findUserPermissionByNickName(String nickname) {
+                return null;
+            }
+
+            @Override
+            public CommonResp<TblAuthUser> ajaxlogin(TblAuthUser tblAuthUser) {
+                logger.error(throwable.getMessage());
+                return null;
+            }
         };
     }
 }

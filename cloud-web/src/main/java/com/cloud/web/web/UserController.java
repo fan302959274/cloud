@@ -4,16 +4,22 @@ import com.cloud.common.entity.TblAuthUser;
 import com.cloud.common.req.TblAuthUserPageReq;
 import com.cloud.common.resp.CommonResp;
 import com.cloud.web.fegin.AuthUserFeginService;
-import com.cloud.web.service.AuthUserService;
 import com.movie.util.response.PageResp;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpSession;
 import java.util.Map;
+import java.util.Objects;
 
 
 /**
@@ -123,6 +129,26 @@ public class UserController {
         return authUserFeginService.delete(ids);
     }
 
+    /**
+     * 登录页面
+     *
+     * @param
+     * @param
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = {"/ajaxlogin"})
+    @ResponseBody
+    public CommonResp<TblAuthUser> ajaxlogin(TblAuthUser tblAuthUser) throws Exception {
+        CommonResp<TblAuthUser> resp = authUserFeginService.ajaxlogin(tblAuthUser);
+        if (Objects.equals("0", resp.getCode())) {
+            UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(tblAuthUser.getNickname(), tblAuthUser.getPswd());
+            Subject subject = SecurityUtils.getSubject();
+            subject.login(usernamePasswordToken);   //完成登录
+            TblAuthUser user = (TblAuthUser) subject.getPrincipal();
+        }
+        return resp;
+    }
 
 
 }
