@@ -20,6 +20,7 @@
             <input class="layui-input" name="id" id="demoReload" autocomplete="off"/>
         </div>
         <button class="layui-btn" data-type="reload">搜索</button>
+        <button class="layui-btn layui-btn-danger batchDel" data-type="batchAllot">批量分配</button>
     </div>
 </blockquote>
 <div class="layui-form news_list">
@@ -30,6 +31,7 @@
 
     <div class="layui-form-item">
         <input type="checkbox" name="switch" lay-skin="switch" lay-filter="isUserHaveFilter"/>
+
 
     </div>
 </script>
@@ -74,7 +76,7 @@
         var table = layui.table;
         table.render({
             elem: '#test'
-            , url: '/role/userroledata?userId='+userId
+            , url: '/role/userroledata?userId=' + userId
             , cols: [[
                 {type: 'checkbox'}
                 , {field: 'code', width: '20%', title: '编码'}
@@ -120,6 +122,44 @@
                         name: demoReload.val()
                     }
                 });
+            },
+            batchAllot: function () {
+                var size = $('.layui-table').find('input[type=checkbox][name="layTableCheckbox"]:checked').length;
+                if (size == 0) {
+                    //配置一个透明的询问框
+                    layer.msg('请选择需要分配的角色', {
+                        time: 2000 //20s后自动关闭
+                    });
+                } else {
+                    layer.alert('确认分配吗？', {
+                        skin: 'layui-layer-molv' //样式类名  自定义样式
+                        , closeBtn: 1    // 是否显示关闭按钮
+                        , anim: 3 //动画类型
+                        , btn: ['确认', '取消'] //按钮
+                        , icon: 5    // icon
+                        , yes: function () {
+                            var ids = "";
+                            var checkStatus = table.checkStatus('testReload,id,isuserhave'); //test即为基础参数id对应的值
+                            console.log(checkStatus.data[0].id);
+                            for (row in checkStatus.data) {
+                                ids += checkStatus.data[row].id + ",";
+                            }
+                            ids = ids.substring(0, ids.length - 1);
+                            /*<![CDATA[*/
+                            var params = "?userId=" + userId + "&allotRoleIds=" + ids;
+                            /*]]>*/
+                            $.ajax({
+                                type: "POST",
+                                url: '/role/userroleallot' + params,
+                                success: function (data) {
+                                    layer.msg(data.msg);
+                                }
+                            });
+                        }
+                        , btn2: function () {
+                        }
+                    });
+                }
             }
         };
         $('.demoTable .layui-btn').on('click', function () {
