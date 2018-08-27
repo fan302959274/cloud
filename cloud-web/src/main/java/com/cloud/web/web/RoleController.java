@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -44,19 +45,6 @@ public class RoleController {
 
 
     /**
-     * @description 列表数据
-     * @author sh00859
-     * @date 2017/9/8
-     */
-    @RequestMapping(value = {"/data"})
-    @ResponseBody
-    public PageResp<TblAuthRole> list(TblAuthRolePageReq pageReq) throws Exception {
-        PageResp<TblAuthRole> resp = authRoleFeginService.list(pageReq);
-        return resp;
-    }
-
-
-    /**
      * @description 添加界面
      * @author sh00859
      * @date 2017/9/8
@@ -64,18 +52,6 @@ public class RoleController {
     @RequestMapping(value = {"/add"})
     public String add() throws Exception {
         return "/role/add";
-    }
-
-
-    /**
-     * @description 保存(此处需要将对象转换为json String类型ps:ajaxFileUpload版本太老, 重构太麻烦)
-     * @author sh00859
-     * @date 2017/9/8
-     */
-    @RequestMapping(value = {"/save"})
-    @ResponseBody
-    public CommonResp<TblAuthRole> save(TblAuthRole record) throws Exception {
-        return authRoleFeginService.save(record);
     }
 
 
@@ -90,6 +66,43 @@ public class RoleController {
         return new ModelAndView("/role/edit", map);
     }
 
+
+
+
+    /**
+     * @description 分配界面
+     * @author sh00859
+     * @date 2017/9/8
+     */
+    @RequestMapping(value = {"/allot/{id}"})
+    public ModelAndView allot(@PathVariable String id, Map map) throws Exception {
+        map.put("roleId", id);
+        return new ModelAndView("/role/allot", map);
+    }
+
+    /**
+     * @description 列表数据
+     * @author sh00859
+     * @date 2017/9/8
+     */
+    @RequestMapping(value = {"/data"})
+    @ResponseBody
+    public PageResp<TblAuthRole> list(TblAuthRolePageReq pageReq) throws Exception {
+        PageResp<TblAuthRole> resp = authRoleFeginService.list(pageReq);
+        return resp;
+    }
+
+    /**
+     * @description 保存(此处需要将对象转换为json String类型ps:ajaxFileUpload版本太老, 重构太麻烦)
+     * @author sh00859
+     * @date 2017/9/8
+     */
+    @RequestMapping(value = {"/save"})
+    @ResponseBody
+    public CommonResp<TblAuthRole> save(TblAuthRole record) throws Exception {
+        return authRoleFeginService.save(record);
+    }
+
     /**
      * @description 更新
      * @author sh00859
@@ -101,6 +114,7 @@ public class RoleController {
         return authRoleFeginService.update(record);
     }
 
+
     /**
      * @description 删除
      * @author sh00859
@@ -110,14 +124,6 @@ public class RoleController {
     @ResponseBody
     public CommonResp<String> delete(String ids) throws Exception {
         return authRoleFeginService.delete(ids);
-    }
-
-
-    @RequestMapping(value = {"/allot"})
-    public ModelAndView allot(String id, Map map) throws Exception {
-        //获取所有的视频类型
-        map.put("userId", id);
-        return new ModelAndView("/user/allot", map);
     }
 
     /**

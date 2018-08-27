@@ -106,7 +106,7 @@ public class PermissionController {
      */
     @RequestMapping(value = {"/rolepermissionallot"})
     @ResponseBody
-    public CommonResp<TblAuthPermission> userroleallot(@RequestParam(value = "allotPermissionIds") String allotPermissionIds, @RequestParam(value = "noAllotPermissionIds") String noAllotPermissionIds, @RequestParam(value = "roleId") String roleId) throws Exception {
+    public CommonResp<TblAuthPermission> userroleallot(@RequestParam(value = "allotPermissionIds",required=false) String allotPermissionIds, @RequestParam(value = "noAllotPermissionIds",required=false) String noAllotPermissionIds, @RequestParam(value = "roleId") String roleId) throws Exception {
         CommonResp<TblAuthPermission> resp = authPermissionService.allotPermission(allotPermissionIds, noAllotPermissionIds, roleId);
         return resp;
     }

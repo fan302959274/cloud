@@ -53,6 +53,7 @@ public class AuthPermissionFeginServiceFallbackFactory implements FallbackFactor
 
             @Override
             public CommonResp<TblAuthPermission> userroleallot(String allotPermissionIds, String noAllotPermissionIds, String roleId) {
+                logger.error(throwable.getMessage());
                 return null;
             }
         };

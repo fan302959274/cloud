@@ -1,183 +1,188 @@
-<script type="text/javascript">
-    var TableInitInner = function () {
-        var oTableInitInner = new Object();
-        //初始化Table
-        oTableInitInner.Init = function () {
-            $('#tb_departmentsinner').bootstrapTable({
-                url: '/permission/rolepermissiondata',                 //请求后台的URL（*）
-                method: 'get',                      //请求方式（*）
-//                toolbar: '#toolbar',                //工具按钮用哪个容器
-                striped: true,                      //是否显示行间隔色
-                dataField: "resultList",            //bootstrap table 可以前端分页也可以后端分页，这里
-                cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
-                pagination: true,                   //是否显示分页（*）
-                sortable: false,                     //是否启用排序
-                sortOrder: "asc",                   //排序方式
-                queryParams: oTableInitInner.queryParams,//传递参数（*）
-                sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
-                pageNumber: 1,                       //初始化加载第一页，默认第一页
-                pageSize: 10,                        //每页的记录行数（*）
-                pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
-//                search: true,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
-                strictSearch: true,
-//                showColumns: true,                  //是否显示所有的列
-//                showRefresh: true,                  //是否显示刷新按钮
-                minimumCountColumns: 2,             //最少允许的列数
-                clickToSelect: true,                //是否启用点击选中行
-                height: 470,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
-                uniqueId: "id",                     //每一行的唯一标识，一般为主键列
-//                showToggle: true,                    //是否显示详细视图和列表视图的切换按钮
-                cardView: false,                    //是否显示详细视图
-                detailView: false,                   //是否显示父子表
-//                showExport:true,
-                columns: [{
-                    field: 'isRoleHave',
-                    checkbox: true,
-                    formatter: stateFormatter
-                }, {
-                    field: 'id',
-                    title: 'id',
-                }, {
-                    field: 'name',
-                    title: '权限名',
-                }, {
-                    field: 'code',
-                    title: '权限代码',
-                }, {
-                    field: 'description',
-                    title: '权限描述',
-                },]
-            });
-        };
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>layui</title>
+    <meta name="renderer" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <link rel="stylesheet" href="/plugins/layui/css/layui.css" media="all"/>
+    <script src="/plugins/layui/layui.js" charset="utf-8"></script>
+    <script src="/js/jquery/jquery.js" charset="utf-8"></script>
+    <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+</head>
+<body style="margin: 10px;" class="layui-form">
 
-        function stateFormatter(value, row, index) {
-            if (row.roleHave == true) {
-                return {
-                    disabled: false,//设置是否可用
-                    checked: true//设置选中
-                };
+<blockquote class="layui-elem-quote news_search">
+    <div class="demoTable" id="layerDemo">
+        角色名：
+        <div class="layui-inline">
+            <input class="layui-input" name="id" id="demoReload" autocomplete="off"/>
+        </div>
+        <button class="layui-btn" data-type="reload">搜索</button>
+        <button class="layui-btn layui-btn-danger batchDel" data-type="batchAllot">批量分配</button>
+    </div>
+</blockquote>
+<div class="layui-form news_list">
+    <table class="layui-hide" id="test" lay-filter="demo"></table>
+</div>
+
+<script type="text/html" id="barDemo">
+
+    <div class="layui-form-item">
+        <input type="checkbox" name="switch" lay-skin="switch" lay-filter="isRoleHaveFilter"/>
+
+
+    </div>
+</script>
+
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script th:inline="javascript">
+    var roleId = [[${roleId}]];
+    console.log(roleId);
+    layui.use('layer', function () { //独立版的layer无需执行这一句
+        var $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句
+//触发事件
+        var active = {
+
+        };
+        $('#layerDemo .layui-btn').on('click', function () {
+            var othis = $(this), method = othis.data('method');
+            active[method] ? active[method].call(this, othis) : '';
+        });
+    });
+    layui.use('table', function () {
+        var table = layui.table;
+        table.render({
+            elem: '#test'
+            , url: '/permission/rolepermissiondata?roleId=' + roleId
+            , cols: [[
+                {type: 'checkbox'}
+                , {field: 'code', width: '20%', title: '编码'}
+                , {field: 'name', width: '20%', title: '名称', sort: true}
+                , {field: 'code', minwidth: '10%', title: '类型'}
+                , {field: 'description', minwidth: '10%', title: '描述'}
+                , {fixed: 'right', minwidth: '30%', title: '操作', align: 'center', toolbar: '#barDemo'}
+
+            ]]
+            , page: true
+            , id: 'testReload,id,isrolehave'
+            , done: function (res) {
+                var tabledata = res.data;
+                for (var user in tabledata) {
+                    //这里才是真正的有效勾选
+                    var index = tabledata[user]['LAY_TABLE_INDEX'];
+                    $('.layui-table tr[data-index=' + index + '] input[type="checkbox"][name="switch"]').attr("value", tabledata[user].id);//设置需要分配的角色id值
+                    if (tabledata[user].isrolehave) {
+                        $('.layui-table tr[data-index=' + index + '] input[type="checkbox"][name="switch"]').prop('checked', true);
+                        $('.layui-table tr[data-index=' + index + '] input[type="checkbox"][name="switch"]').next().addClass('layui-form-onswitch');
+                    }
+
+                }
+
             }
-            return value;
-        }
-
-        //得到查询的参数
-        oTableInitInner.queryParams = function (params) {
-            var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
-                limit: params.limit,   //页面大小
-                offset: params.offset,  //页码
-                name: $("#name").val(),
-                code: $("#code").val(),//每页多少条数据
-                description: $("#description").val(),
-                roleId: $("#roleId").val(),
-            };
-            return temp;
+        });
+        //监听工具条
+        table.on('tool(demo)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+            var data = obj.data //获得当前行数据
+                , layEvent = obj.event; //获得 lay-event 对应的值
+            if (layEvent === 'detail') {
+                layer.msg(data.id);
+            }
+        });
+        var $ = layui.$, active = {
+            reload: function () {
+                var demoReload = $('#demoReload');
+                //执行重载
+                table.reload('testReload,id,isrolehave', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    , where: {
+                        name: demoReload.val()
+                    }
+                });
+            },
+            batchAllot: function () {
+                var size = $('.layui-table').find('input[type=checkbox][name="layTableCheckbox"]:checked').length;
+                if (size == 0) {
+                    //配置一个透明的询问框
+                    layer.msg('请选择需要分配的菜单', {
+                        time: 2000 //20s后自动关闭
+                    });
+                } else {
+                    layer.alert('确认分配吗？', {
+                        skin: 'layui-layer-molv' //样式类名  自定义样式
+                        , closeBtn: 1    // 是否显示关闭按钮
+                        , anim: 3 //动画类型
+                        , btn: ['确认', '取消'] //按钮
+                        , icon: 5    // icon
+                        , yes: function () {
+                            var ids = "";
+                            var checkStatus = table.checkStatus('testReload,id,isrolehave'); //test即为基础参数id对应的值
+                            console.log(checkStatus.data[0].id);
+                            for (row in checkStatus.data) {
+                                ids += checkStatus.data[row].id + ",";
+                            }
+                            ids = ids.substring(0, ids.length - 1);
+                            /*<![CDATA[*/
+                            var params = "?roleId=" + roleId + "&allotPermissionIds=" + ids;
+                            /*]]>*/
+                            $.ajax({
+                                type: "POST",
+                                url: '/permission/rolepermissionallot' + params,
+                                success: function (data) {
+                                    layer.msg(data.msg);
+                                }
+                            });
+                        }
+                        , btn2: function () {
+                        }
+                    });
+                }
+            }
         };
-        return oTableInitInner;
-    };
-
-    var ButtonInitInner = function () {
-        var oInit = new Object();
-        var postdata = {};
-
-        oInit.Init = function () {
-            //初始化页面上面的按钮事件
-        };
-
-        return oInit;
-    };
-
-    $(function () {
-
-
-        //datatable相关
-        //1.初始化Table
-        var oTable = new TableInitInner();
-        oTable.Init();
-
-        //2.初始化Button的点击事件
-        var oButtonInitInner = new ButtonInitInner();
-        oButtonInitInner.Init();
-
-        //查询按钮事件
-        $('#search_form_inner #query').click(function () {
-            $('#tb_departmentsinner').bootstrapTable('refresh', {url: '/permission/rolepermissiondata'});
-        })
-
-        //清空按钮事件
-        $('#search_form_inner #reset').click(function () {
-            $('#search_form_inner #search_form').find("input").val("");
-        })
+        $('.demoTable .layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
 
     });
 
+    layui.use('form', function () {
+        var form = layui.form;
+        //各种基于事件的操作，下面会有进一步介绍
+        form.on('switch(isRoleHaveFilter)', function (data) {
+            console.log(data.elem.checked); //开关是否开启，true或者false
+            console.log(roleId);
+            console.log(data.value);
+            var params = "?roleId=" + roleId;
+            if (data.elem.checked) {
 
+                /*<![CDATA[*/
+                params += "&allotPermissionIds=" + data.value;
+                /*]]>*/
+
+            } else {
+                /*<![CDATA[*/
+                params += "&noAllotPermissionIds=" + data.value;
+                /*]]>*/
+            }
+
+
+            $.ajax({
+                type: "POST",
+                url: '/permission/rolepermissionallot' + params,
+                success: function (data) {
+                    layer.msg(data.msg);
+                }
+            });
+            return false;
+
+
+        });
+
+    });
 </script>
-<div class="panel-body" style="padding-bottom:0px;padding-top:0px;">
-    <div class="panel panel-default">
-        <div class="panel-heading">查询条件</div>
-        <div class="panel-body">
-            <form id="search_form_inner" class="form-horizontal">
-
-                <div class="row">
-
-
-                    <!--<div class="form-horizontal">-->
-                        <!--<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">-->
-                            <!--<div class="form-group ">-->
-                                <!--<label class="col-lg-6 col-sm-6 control-label">权限名称</label>-->
-                                <!--<div class="col-lg-6 col-sm-6">-->
-                                    <!--<input type="text" class="form-control" id="name" name="name"-->
-                                           <!--placeholder="权限名称"/>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                    <div class="form-horizontal">
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                            <div class="form-group ">
-                                <label class="col-lg-6 col-sm-6 control-label">权限代码</label>
-                                <div class="col-lg-6 col-sm-6">
-                                    <input type="text" class="form-control" id="code" name="code"
-                                           placeholder="权限代码"/>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-horizontal">
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                            <div class="form-group ">
-                                <label class="col-lg-6 col-sm-6 control-label">权限描述</label>
-                                <div class="col-lg-6 col-sm-6">
-                                    <input type="text" class="form-control" id="description" name="description"
-                                           placeholder="权限描述"/>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-horizontal">
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                            <div class="form-group ">
-                                <button type="button" class="btn btn-primary btn-md" id="query">查询</button>
-                                <button type="button" class="btn btn-default btn-md" id="reset">清空</button>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-                <!--<div class="row">-->
-
-
-                    <!---->
-
-
-                <!--</div>-->
-
-            </form>
-        </div>
-    </div>
-
-    <table id="tb_departmentsinner"></table>
-</div>
-
+</body>
+</html>

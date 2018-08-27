@@ -170,13 +170,12 @@ public class AuthPermissionServiceImpl implements AuthPermissionService {
     public CommonResp<TblAuthPermission> allotPermission(String allotPermissionIds, String noAllotPermissionIds, String roleId) {
         CommonResp<TblAuthPermission> resp = new CommonResp<TblAuthPermission>();
         try {
-            String[] allotPermissionIdArr = allotPermissionIds.split(",");
-            String[] noAllotPermissionArr = noAllotPermissionIds.split(",");
             List<Long> allotPermissionIdList = new ArrayList<Long>();
             List<Long> noAllotPermissionIdList = new ArrayList<Long>();
             TblAuthRolePermissionExample example = new TblAuthRolePermissionExample();
 
             if (StringUtils.isNotBlank(allotPermissionIds)) {
+                String[] allotPermissionIdArr = allotPermissionIds.split(",");
                 for (String id : allotPermissionIdArr) {
                     allotPermissionIdList.add(Long.parseLong(id));
                 }
@@ -191,6 +190,7 @@ public class AuthPermissionServiceImpl implements AuthPermissionService {
             }
 
             if (StringUtils.isNotBlank(noAllotPermissionIds)) {
+                String[] noAllotPermissionArr = noAllotPermissionIds.split(",");
                 for (String id : noAllotPermissionArr) {
                     noAllotPermissionIdList.add(Long.parseLong(id));
                 }
