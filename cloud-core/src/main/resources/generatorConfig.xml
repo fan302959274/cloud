@@ -47,7 +47,7 @@
         <!--<table tableName="tbl_auth_role_permission"/>-->
         <!--<table tableName="tbl_auth_user_role"/>-->
 
-        <table tableName="tbl_auth_permission"/>
+        <table tableName="tbl_adm_cardauthlog"/>
 
 
     </context>
