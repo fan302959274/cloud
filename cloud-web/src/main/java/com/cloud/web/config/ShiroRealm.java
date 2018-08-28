@@ -3,6 +3,8 @@ package com.cloud.web.config;
 import com.cloud.common.entity.TblAuthPermission;
 import com.cloud.common.entity.TblAuthUser;
 import com.cloud.web.fegin.AuthUserFeginService;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -22,6 +24,7 @@ import java.util.Set;
  * @create 2017-11-21 17:11
  **/
 public class ShiroRealm extends AuthorizingRealm {
+    private final Logger logger = LogManager.getLogger(this.getClass());
 
     @Autowired
     private AuthUserFeginService authUserFeginService;
@@ -36,7 +39,7 @@ public class ShiroRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(
             AuthenticationToken authcToken) throws AuthenticationException {
-        System.out.println("身份认证方法：MyShiroRealm.doGetAuthenticationInfo()");
+        logger.info("身份认证方法：MyShiroRealm.doGetAuthenticationInfo()");
 
         UsernamePasswordToken utoken = (UsernamePasswordToken) authcToken;//获取用户输入的token
         String username = utoken.getUsername();
@@ -50,7 +53,7 @@ public class ShiroRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(
             PrincipalCollection principals) {
-        System.out.println("权限认证方法：MyShiroRealm.doGetAuthenticationInfo()");
+        logger.info("权限认证方法：MyShiroRealm.doGetAuthenticationInfo()");
         TblAuthUser token = (TblAuthUser) SecurityUtils.getSubject().getPrincipal();
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         //根据用户ID查询角色（role），放入到Authorization里。

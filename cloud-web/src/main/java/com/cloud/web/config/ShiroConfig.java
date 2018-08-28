@@ -1,6 +1,8 @@
 package com.cloud.web.config;
 
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
@@ -16,6 +18,9 @@ import java.util.Map;
  */
 @Configuration
 public class ShiroConfig {
+
+    private final Logger logger = LogManager.getLogger(this.getClass());
+
     /**
      * ShiroFilterFactoryBean 处理拦截资源文件问题。
      * 注意：单独一个ShiroFilterFactoryBean配置是或报错的，以为在
@@ -67,7 +72,7 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/**", "authc");
 
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
-        System.out.println("Shiro拦截器工厂类注入成功");
+        logger.info("Shiro拦截器工厂类注入成功");
         return shiroFilterFactoryBean;
     }
 
