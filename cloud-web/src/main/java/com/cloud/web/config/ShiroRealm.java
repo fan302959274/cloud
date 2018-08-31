@@ -11,8 +11,10 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -24,7 +26,7 @@ import java.util.Set;
  * @create 2017-11-21 17:11
  **/
 public class ShiroRealm extends AuthorizingRealm {
-    private final Logger logger = LogManager.getLogger(this.getClass());
+    protected final org.slf4j.Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private AuthUserFeginService authUserFeginService;
@@ -43,7 +45,9 @@ public class ShiroRealm extends AuthorizingRealm {
 
         UsernamePasswordToken utoken = (UsernamePasswordToken) authcToken;//获取用户输入的token
         String username = utoken.getUsername();
+        logger.info("开始时间为{}",System.currentTimeMillis());
         TblAuthUser user = authUserFeginService.findByNickName(username);
+        logger.info("结束时间为{}",System.currentTimeMillis());
         return new SimpleAuthenticationInfo(user, user.getPswd(), this.getClass().getName());//放入shiro.调用CredentialsMatcher检验密码
     }
 
@@ -57,7 +61,9 @@ public class ShiroRealm extends AuthorizingRealm {
         TblAuthUser token = (TblAuthUser) SecurityUtils.getSubject().getPrincipal();
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         //根据用户ID查询角色（role），放入到Authorization里。
+        logger.info("开始时间为{}",System.currentTimeMillis());
         List<TblAuthPermission> permissions = authUserFeginService.findUserPermissionByNickName(token.getNickname());
+        logger.info("结束时间为{}",System.currentTimeMillis());
         //实际开发，当前登录用户的角色和权限信息是从数据库来获取的，我这里写死是为了方便测试
         Set<String> roleSet = new HashSet<>();
         if ("admin".equals(token.getNickname())) {

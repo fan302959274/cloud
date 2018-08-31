@@ -15,6 +15,8 @@ import com.movie.util.response.PageResp;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -34,6 +36,7 @@ public class AuthUserServiceImpl implements AuthUserService {
 
 
     @Override
+    @Cacheable(value = "tblauthuser",key="#nickname")
     public TblAuthUser findUserByNickName(String nickname) {
         TblAuthUserExample example = new TblAuthUserExample();
         example.createCriteria().andNicknameEqualTo(nickname);
@@ -149,6 +152,7 @@ public class AuthUserServiceImpl implements AuthUserService {
     }
 
     @Override
+    @Cacheable(value = "tblpermissionr",key="#nickname")
     public List<TblAuthPermission> findUserPermissionByNickName(String nickname) {
         try {
             List<TblAuthPermission> list = tblAuthPermissionExtendMapper.findUserPermissionByNickName(nickname);
