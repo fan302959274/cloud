@@ -1,11 +1,11 @@
 package com.cloud.web.config;
 
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -19,7 +19,7 @@ import java.util.Map;
 @Configuration
 public class ShiroConfig {
 
-    private final Logger logger = LogManager.getLogger(this.getClass());
+    protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     /**
      * ShiroFilterFactoryBean 处理拦截资源文件问题。

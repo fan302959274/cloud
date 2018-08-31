@@ -3,14 +3,13 @@ package com.cloud.web.config;
 import com.cloud.common.entity.TblAuthPermission;
 import com.cloud.common.entity.TblAuthUser;
 import com.cloud.web.fegin.AuthUserFeginService;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -26,7 +25,7 @@ import java.util.Set;
  * @create 2017-11-21 17:11
  **/
 public class ShiroRealm extends AuthorizingRealm {
-    protected final org.slf4j.Logger logger = LoggerFactory.getLogger(this.getClass());
+    protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private AuthUserFeginService authUserFeginService;
