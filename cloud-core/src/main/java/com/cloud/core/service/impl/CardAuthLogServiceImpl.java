@@ -2,18 +2,16 @@ package com.cloud.core.service.impl;
 
 import com.cloud.common.req.TblAdmCardauthlogPageReq;
 import com.cloud.common.resp.CommonResp;
+import com.cloud.common.resp.PageResp;
 import com.cloud.common.resp.ResponseCode;
 import com.cloud.core.mapper.TblAdmCardauthlogMapper;
 import com.cloud.core.model.TblAdmCardauthlog;
 import com.cloud.core.model.TblAdmCardauthlogExample;
 import com.cloud.core.service.CardAuthLogService;
 import com.github.pagehelper.PageHelper;
-import com.movie.util.response.PageResp;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

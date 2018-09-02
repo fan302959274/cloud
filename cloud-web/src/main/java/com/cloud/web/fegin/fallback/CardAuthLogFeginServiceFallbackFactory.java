@@ -2,10 +2,9 @@ package com.cloud.web.fegin.fallback;
 
 import com.cloud.common.entity.TblAdmCardauthlog;
 import com.cloud.common.req.TblAdmCardauthlogPageReq;
-import com.cloud.common.req.TblAuthUserPageReq;
 import com.cloud.common.resp.CommonResp;
+import com.cloud.common.resp.PageResp;
 import com.cloud.web.fegin.CardAuthLogFeginService;
-import com.movie.util.response.PageResp;
 import feign.hystrix.FallbackFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

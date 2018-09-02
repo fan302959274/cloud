@@ -2,11 +2,11 @@ package com.cloud.core.facade;
 
 import com.cloud.common.req.TblAuthUserPageReq;
 import com.cloud.common.resp.CommonResp;
+import com.cloud.common.resp.PageResp;
 import com.cloud.common.resp.ResponseCode;
 import com.cloud.core.model.TblAuthPermission;
 import com.cloud.core.model.TblAuthUser;
 import com.cloud.core.service.AuthUserService;
-import com.movie.util.response.PageResp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Objects;
 
@@ -159,7 +158,6 @@ public class UserController {
 
         return resp;
     }
-
 
 
 }

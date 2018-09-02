@@ -3,6 +3,7 @@ package com.cloud.web.config;
 import com.cloud.common.entity.TblAuthPermission;
 import com.cloud.common.entity.TblAuthUser;
 import com.cloud.web.fegin.AuthUserFeginService;
+import com.cloud.web.service.AuthUserService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -27,6 +28,8 @@ import java.util.Set;
 public class ShiroRealm extends AuthorizingRealm {
     protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    @Autowired
+    private AuthUserService authUserService;
     @Autowired
     private AuthUserFeginService authUserFeginService;
 
@@ -58,7 +61,7 @@ public class ShiroRealm extends AuthorizingRealm {
         TblAuthUser token = (TblAuthUser) SecurityUtils.getSubject().getPrincipal();
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         //根据用户ID查询角色（role），放入到Authorization里。
-        List<TblAuthPermission> permissions = authUserFeginService.findUserPermissionByNickName(token.getNickname());
+        List<TblAuthPermission> permissions = authUserService.findUserPermissionByNickName(token.getNickname());
         //实际开发，当前登录用户的角色和权限信息是从数据库来获取的，我这里写死是为了方便测试
         Set<String> roleSet = new HashSet<>();
         if ("admin".equals(token.getNickname())) {

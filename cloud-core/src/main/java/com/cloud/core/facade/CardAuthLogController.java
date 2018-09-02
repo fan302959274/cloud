@@ -2,9 +2,9 @@ package com.cloud.core.facade;
 
 import com.cloud.common.req.TblAdmCardauthlogPageReq;
 import com.cloud.common.resp.CommonResp;
+import com.cloud.common.resp.PageResp;
 import com.cloud.core.model.TblAdmCardauthlog;
 import com.cloud.core.service.CardAuthLogService;
-import com.movie.util.response.PageResp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -2,9 +2,9 @@ package com.cloud.core.service;
 
 import com.cloud.common.req.TblAuthPermissionPageReq;
 import com.cloud.common.resp.CommonResp;
+import com.cloud.common.resp.PageResp;
 import com.cloud.core.model.TblAuthPermission;
 import com.cloud.core.model.extend.TblAuthPermissionExtend;
-import com.movie.util.response.PageResp;
 
 public interface AuthPermissionService {
 

@@ -3,8 +3,8 @@ package com.cloud.web.web;
 import com.cloud.common.entity.TblAuthUser;
 import com.cloud.common.req.TblAuthUserPageReq;
 import com.cloud.common.resp.CommonResp;
+import com.cloud.common.resp.PageResp;
 import com.cloud.web.fegin.AuthUserFeginService;
-import com.movie.util.response.PageResp;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpSession;
 import java.util.Map;
 import java.util.Objects;
 
@@ -145,7 +144,7 @@ public class UserController {
             UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(tblAuthUser.getNickname(), tblAuthUser.getPswd());
             Subject subject = SecurityUtils.getSubject();
             subject.login(usernamePasswordToken);   //完成登录
-            TblAuthUser user = (TblAuthUser) subject.getPrincipal();
+            logger.info("login over");
         }
         return resp;
     }

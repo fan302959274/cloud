@@ -1,15 +1,13 @@
 package com.cloud.web.fegin;
 
 import com.cloud.common.entity.TblAuthRole;
-import com.cloud.common.entity.TblAuthUser;
 import com.cloud.common.entity.extend.TblAuthRoleExtend;
 import com.cloud.common.req.TblAuthRolePageReq;
 import com.cloud.common.resp.CommonResp;
+import com.cloud.common.resp.PageResp;
 import com.cloud.web.fegin.config.AuthUserFeginServiceConfig;
 import com.cloud.web.fegin.fallback.AuthRoleFeginServiceFallbackFactory;
-import com.movie.util.response.PageResp;
 import org.springframework.cloud.netflix.feign.FeignClient;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -79,6 +77,6 @@ public interface AuthRoleFeginService {
      * @date 2017/9/8
      */
     @RequestMapping(value = "/role/userroleallot", method = RequestMethod.POST)
-    public CommonResp<TblAuthRole> userroleallot(@RequestParam(value = "allotRoleIds",required=false) String allotRoleIds, @RequestParam(value = "noAllotRoleIds",required=false) String noAllotRoleIds, @RequestParam(value = "userId") String userId);
+    public CommonResp<TblAuthRole> userroleallot(@RequestParam(value = "allotRoleIds", required = false) String allotRoleIds, @RequestParam(value = "noAllotRoleIds", required = false) String noAllotRoleIds, @RequestParam(value = "userId") String userId);
 
 }

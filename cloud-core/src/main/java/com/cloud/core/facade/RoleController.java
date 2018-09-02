@@ -2,10 +2,10 @@ package com.cloud.core.facade;
 
 import com.cloud.common.req.TblAuthRolePageReq;
 import com.cloud.common.resp.CommonResp;
+import com.cloud.common.resp.PageResp;
 import com.cloud.core.model.TblAuthRole;
 import com.cloud.core.model.extend.TblAuthRoleExtend;
 import com.cloud.core.service.AuthRoleService;
-import com.movie.util.response.PageResp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,7 +106,7 @@ public class RoleController {
      */
     @RequestMapping(value = {"/userroleallot"})
     @ResponseBody
-    public CommonResp<TblAuthRole> userroleallot(@RequestParam(value = "allotRoleIds",required=false) String allotRoleIds, @RequestParam(value = "noAllotRoleIds",required=false) String noAllotRoleIds, @RequestParam(value = "userId") String userId) throws Exception {
+    public CommonResp<TblAuthRole> userroleallot(@RequestParam(value = "allotRoleIds", required = false) String allotRoleIds, @RequestParam(value = "noAllotRoleIds", required = false) String noAllotRoleIds, @RequestParam(value = "userId") String userId) throws Exception {
         CommonResp<TblAuthRole> resp = authRoleService.allotRole(allotRoleIds, noAllotRoleIds, userId);
         return resp;
     }

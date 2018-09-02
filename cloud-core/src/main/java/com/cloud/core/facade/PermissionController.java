@@ -2,10 +2,10 @@ package com.cloud.core.facade;
 
 import com.cloud.common.req.TblAuthPermissionPageReq;
 import com.cloud.common.resp.CommonResp;
+import com.cloud.common.resp.PageResp;
 import com.cloud.core.model.TblAuthPermission;
 import com.cloud.core.model.extend.TblAuthPermissionExtend;
 import com.cloud.core.service.AuthPermissionService;
-import com.movie.util.response.PageResp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,7 +106,7 @@ public class PermissionController {
      */
     @RequestMapping(value = {"/rolepermissionallot"})
     @ResponseBody
-    public CommonResp<TblAuthPermission> userroleallot(@RequestParam(value = "allotPermissionIds",required=false) String allotPermissionIds, @RequestParam(value = "noAllotPermissionIds",required=false) String noAllotPermissionIds, @RequestParam(value = "roleId") String roleId) throws Exception {
+    public CommonResp<TblAuthPermission> userroleallot(@RequestParam(value = "allotPermissionIds", required = false) String allotPermissionIds, @RequestParam(value = "noAllotPermissionIds", required = false) String noAllotPermissionIds, @RequestParam(value = "roleId") String roleId) throws Exception {
         CommonResp<TblAuthPermission> resp = authPermissionService.allotPermission(allotPermissionIds, noAllotPermissionIds, roleId);
         return resp;
     }

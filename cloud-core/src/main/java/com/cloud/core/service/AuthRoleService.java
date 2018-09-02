@@ -2,9 +2,9 @@ package com.cloud.core.service;
 
 import com.cloud.common.req.TblAuthRolePageReq;
 import com.cloud.common.resp.CommonResp;
+import com.cloud.common.resp.PageResp;
 import com.cloud.core.model.TblAuthRole;
 import com.cloud.core.model.extend.TblAuthRoleExtend;
-import com.movie.util.response.PageResp;
 
 public interface AuthRoleService {
 

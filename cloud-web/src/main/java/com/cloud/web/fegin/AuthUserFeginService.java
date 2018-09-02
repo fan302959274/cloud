@@ -4,16 +4,13 @@ import com.cloud.common.entity.TblAuthPermission;
 import com.cloud.common.entity.TblAuthUser;
 import com.cloud.common.req.TblAuthUserPageReq;
 import com.cloud.common.resp.CommonResp;
-import com.cloud.common.resp.ResponseCode;
+import com.cloud.common.resp.PageResp;
 import com.cloud.web.fegin.config.AuthUserFeginServiceConfig;
 import com.cloud.web.fegin.fallback.AuthUserFeginServiceFallbackFactory;
-import com.movie.util.response.PageResp;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
-import java.util.Objects;
 
 @FeignClient(value = "cloud-core", fallbackFactory = AuthUserFeginServiceFallbackFactory.class, configuration = AuthUserFeginServiceConfig.class)
 public interface AuthUserFeginService {
@@ -90,6 +87,6 @@ public interface AuthUserFeginService {
      */
     @RequestMapping(value = {"/user/ajaxlogin"}, method = RequestMethod.POST)
     @ResponseBody
-    public CommonResp<TblAuthUser> ajaxlogin(@RequestBody TblAuthUser tblAuthUser) ;
+    public CommonResp<TblAuthUser> ajaxlogin(@RequestBody TblAuthUser tblAuthUser);
 
 }

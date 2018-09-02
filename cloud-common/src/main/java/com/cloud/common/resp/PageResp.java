@@ -1,4 +1,5 @@
-package com.movie.util.response;/**
+package com.cloud.common.resp;
+/**
  * Created by sh00859 on 2017/7/20.
  */
 

@@ -1,18 +1,16 @@
 package com.cloud.web.fegin;
 
-import com.cloud.common.entity.TblAuthPermission;
 import com.cloud.common.entity.TblAdmCardauthlog;
 import com.cloud.common.req.TblAdmCardauthlogPageReq;
-import com.cloud.common.req.TblAuthUserPageReq;
 import com.cloud.common.resp.CommonResp;
+import com.cloud.common.resp.PageResp;
 import com.cloud.web.fegin.config.AuthUserFeginServiceConfig;
-import com.cloud.web.fegin.fallback.AuthUserFeginServiceFallbackFactory;
 import com.cloud.web.fegin.fallback.CardAuthLogFeginServiceFallbackFactory;
-import com.movie.util.response.PageResp;
 import org.springframework.cloud.netflix.feign.FeignClient;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient(value = "cloud-core", fallbackFactory = CardAuthLogFeginServiceFallbackFactory.class, configuration = AuthUserFeginServiceConfig.class)
 public interface CardAuthLogFeginService {
@@ -59,7 +57,6 @@ public interface CardAuthLogFeginService {
      */
     @RequestMapping(value = "/cardauth/delete", method = RequestMethod.POST)
     public CommonResp<String> delete(@RequestParam(value = "ids") String ids);
-
 
 
 }

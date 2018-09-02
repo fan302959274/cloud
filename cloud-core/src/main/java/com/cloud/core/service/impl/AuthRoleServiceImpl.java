@@ -2,6 +2,7 @@ package com.cloud.core.service.impl;
 
 import com.cloud.common.req.TblAuthRolePageReq;
 import com.cloud.common.resp.CommonResp;
+import com.cloud.common.resp.PageResp;
 import com.cloud.common.resp.ResponseCode;
 import com.cloud.core.mapper.TblAuthRoleMapper;
 import com.cloud.core.mapper.TblAuthUserRoleMapper;
@@ -13,7 +14,6 @@ import com.cloud.core.model.TblAuthUserRoleExample;
 import com.cloud.core.model.extend.TblAuthRoleExtend;
 import com.cloud.core.service.AuthRoleService;
 import com.github.pagehelper.PageHelper;
-import com.movie.util.response.PageResp;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -123,7 +123,7 @@ public class AuthRoleServiceImpl implements AuthRoleService {
     }
 
     @Override
-    @Cacheable(value = "role:id",key="#id")
+    @Cacheable(value = "role:id", key = "#id")
     public TblAuthRole selectByKey(Long id) {
         return tblAuthRoleMapper.selectByPrimaryKey(id);
     }

@@ -24,7 +24,7 @@
         <!--滚动策略-->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!--路径-->
-            <fileNamePattern>F:/log/cloud-register-server-info.%d.log</fileNamePattern>
+            <fileNamePattern>D:/log/cloud-register-server-info.%d.log</fileNamePattern>
         </rollingPolicy>
     </appender>
     <appender name="fileErrorLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -37,7 +37,7 @@
         <!--滚动策略-->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!--路径-->
-            <fileNamePattern>F:/log/cloud-register-server-error.%d.log</fileNamePattern>
+            <fileNamePattern>D:/log/cloud-register-server-error.%d.log</fileNamePattern>
         </rollingPolicy>
     </appender>
     <root level="info">

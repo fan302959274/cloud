@@ -2,6 +2,7 @@ package com.cloud.core.service.impl;
 
 import com.cloud.common.req.TblAuthPermissionPageReq;
 import com.cloud.common.resp.CommonResp;
+import com.cloud.common.resp.PageResp;
 import com.cloud.common.resp.ResponseCode;
 import com.cloud.core.mapper.TblAuthPermissionMapper;
 import com.cloud.core.mapper.TblAuthRolePermissionMapper;
@@ -13,7 +14,6 @@ import com.cloud.core.model.TblAuthRolePermissionExample;
 import com.cloud.core.model.extend.TblAuthPermissionExtend;
 import com.cloud.core.service.AuthPermissionService;
 import com.github.pagehelper.PageHelper;
-import com.movie.util.response.PageResp;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -124,7 +124,7 @@ public class AuthPermissionServiceImpl implements AuthPermissionService {
     }
 
     @Override
-    @Cacheable(value = "permission:id",key="#id")
+    @Cacheable(value = "permission:id", key = "#id")
     public TblAuthPermission selectByKey(Long id) {
         return tblAuthPermissionMapper.selectByPrimaryKey(id);
     }

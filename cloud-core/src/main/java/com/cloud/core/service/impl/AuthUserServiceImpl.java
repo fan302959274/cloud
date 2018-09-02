@@ -2,6 +2,7 @@ package com.cloud.core.service.impl;
 
 import com.cloud.common.req.TblAuthUserPageReq;
 import com.cloud.common.resp.CommonResp;
+import com.cloud.common.resp.PageResp;
 import com.cloud.common.resp.ResponseCode;
 import com.cloud.common.util.DateUtil;
 import com.cloud.core.mapper.TblAuthUserMapper;
@@ -11,20 +12,16 @@ import com.cloud.core.model.TblAuthUser;
 import com.cloud.core.model.TblAuthUserExample;
 import com.cloud.core.service.AuthUserService;
 import com.github.pagehelper.PageHelper;
-import com.movie.util.response.PageResp;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.lang.reflect.Array;
+import java.util.*;
 
 @Service
 public class AuthUserServiceImpl implements AuthUserService {
@@ -36,7 +33,7 @@ public class AuthUserServiceImpl implements AuthUserService {
 
 
     @Override
-    @Cacheable(value = "user:nickname",key="#nickname")
+    @Cacheable(value = "user:nickname", key = "#nickname")
     public TblAuthUser findUserByNickName(String nickname) {
         TblAuthUserExample example = new TblAuthUserExample();
         example.createCriteria().andNicknameEqualTo(nickname);
@@ -147,13 +144,13 @@ public class AuthUserServiceImpl implements AuthUserService {
     }
 
     @Override
-    @Cacheable(value = "user:id",key="#id")
+    @Cacheable(value = "user:id", key = "#id")
     public TblAuthUser selectByKey(Long id) {
         return tblAuthUserMapper.selectByPrimaryKey(id);
     }
 
     @Override
-    @Cacheable(value = "permission:nickname",key="#nickname")
+    @Cacheable(value = "permission:nickname", key = "#nickname")
     public List<TblAuthPermission> findUserPermissionByNickName(String nickname) {
         try {
             List<TblAuthPermission> list = tblAuthPermissionExtendMapper.findUserPermissionByNickName(nickname);

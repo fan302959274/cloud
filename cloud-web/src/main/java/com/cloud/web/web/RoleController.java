@@ -4,8 +4,8 @@ import com.cloud.common.entity.TblAuthRole;
 import com.cloud.common.entity.extend.TblAuthRoleExtend;
 import com.cloud.common.req.TblAuthRolePageReq;
 import com.cloud.common.resp.CommonResp;
+import com.cloud.common.resp.PageResp;
 import com.cloud.web.fegin.AuthRoleFeginService;
-import com.movie.util.response.PageResp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,8 +65,6 @@ public class RoleController {
         map.put("data", authRoleFeginService.selectByKey(tblAuthRole.getId()));
         return new ModelAndView("/role/edit", map);
     }
-
-
 
 
     /**

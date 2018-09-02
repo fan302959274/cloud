@@ -1,14 +1,9 @@
 package com.cloud.core.service;
 
 import com.cloud.common.req.TblAdmCardauthlogPageReq;
-import com.cloud.common.req.TblAuthUserPageReq;
 import com.cloud.common.resp.CommonResp;
+import com.cloud.common.resp.PageResp;
 import com.cloud.core.model.TblAdmCardauthlog;
-import com.cloud.core.model.TblAuthPermission;
-import com.cloud.core.model.TblAdmCardauthlog;
-import com.movie.util.response.PageResp;
-
-import java.util.List;
 
 public interface CardAuthLogService {
 
@@ -47,7 +42,6 @@ public interface CardAuthLogService {
      * @date 2017/7/13
      */
     public CommonResp<String> delete(String ids);
-
 
 
 }
