@@ -124,7 +124,7 @@ public class AuthPermissionServiceImpl implements AuthPermissionService {
     }
 
     @Override
-    @Cacheable(value = "permission:id", key = "#id")
+    @Cacheable(value = "permissioncache", key = "'permission'+#id")
     public TblAuthPermission selectByKey(Long id) {
         return tblAuthPermissionMapper.selectByPrimaryKey(id);
     }

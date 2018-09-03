@@ -123,7 +123,7 @@ public class AuthRoleServiceImpl implements AuthRoleService {
     }
 
     @Override
-    @Cacheable(value = "role:id", key = "#id")
+    @Cacheable(value = "rolecache", key = "'role'+#id")
     public TblAuthRole selectByKey(Long id) {
         return tblAuthRoleMapper.selectByPrimaryKey(id);
     }

@@ -33,7 +33,7 @@ public class AuthUserServiceImpl implements AuthUserService {
 
 
     @Override
-    @Cacheable(value = "user:nickname", key = "#nickname")
+    @Cacheable(value = "usercache", key = "'user'+#nickname")
     public TblAuthUser findUserByNickName(String nickname) {
         TblAuthUserExample example = new TblAuthUserExample();
         example.createCriteria().andNicknameEqualTo(nickname);
@@ -144,13 +144,13 @@ public class AuthUserServiceImpl implements AuthUserService {
     }
 
     @Override
-    @Cacheable(value = "user:id", key = "#id")
+    @Cacheable(value = "usercache", key = "'user'+#id")
     public TblAuthUser selectByKey(Long id) {
         return tblAuthUserMapper.selectByPrimaryKey(id);
     }
 
     @Override
-    @Cacheable(value = "permission:nickname", key = "#nickname")
+    @Cacheable(value = "permissioncache", key = "'permission'+#nickname")
     public List<TblAuthPermission> findUserPermissionByNickName(String nickname) {
         try {
             List<TblAuthPermission> list = tblAuthPermissionExtendMapper.findUserPermissionByNickName(nickname);
