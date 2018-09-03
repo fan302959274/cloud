@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author sh00859
  * @description guava相关配置
- * 超时时间100秒，最多缓存1000个
+ * 超时时间一天，最多缓存1000个
  * @date 2018/9/3
  */
 @Configuration
@@ -26,7 +26,7 @@ public class GuavaCacheConfig {
         GuavaCacheManager guavaCacheManager = new GuavaCacheManager();
         guavaCacheManager.setCacheBuilder(
 
-                CacheBuilder.newBuilder().expireAfterWrite(100, TimeUnit.SECONDS).maximumSize(1000)
+                CacheBuilder.newBuilder().expireAfterWrite(60 * 60 * 24, TimeUnit.SECONDS).maximumSize(1000)
         );
         return guavaCacheManager;
     }
