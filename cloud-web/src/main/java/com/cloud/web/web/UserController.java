@@ -143,6 +143,7 @@ public class UserController {
         if (Objects.equals("0", resp.getCode())) {
             UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(tblAuthUser.getNickname(), tblAuthUser.getPswd());
             Subject subject = SecurityUtils.getSubject();
+            subject.getSession().setTimeout(60 * 30 * 1000);//半个小时 必须大于1000，否则都是永不过期
             subject.login(usernamePasswordToken);   //完成登录
             logger.info("login over");
         }
