@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cloud.core.mapper.TblAdmCardauthlogMapper" >
+  <resultMap id="BaseResultMap" type="com.cloud.core.model.TblAdmCardauthlog" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="CAL_AUTH_BANK_NAME" property="calAuthBankName" jdbcType="VARCHAR" />
+    <result column="CAL_AUTH_BANK_CARD" property="calAuthBankCard" jdbcType="VARCHAR" />
+    <result column="CAL_AUTH_CUST_NAME" property="calAuthCustName" jdbcType="VARCHAR" />
+    <result column="CAL_AUTH_IDNO" property="calAuthIdno" jdbcType="VARCHAR" />
+    <result column="CAL_AUTH_MOBILE" property="calAuthMobile" jdbcType="VARCHAR" />
+    <result column="CAL_AUTH_TYPE" property="calAuthType" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="updator" property="updator" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, CAL_AUTH_BANK_NAME, CAL_AUTH_BANK_CARD, CAL_AUTH_CUST_NAME, CAL_AUTH_IDNO, CAL_AUTH_MOBILE, 
+    CAL_AUTH_TYPE, create_date, update_date, creator, updator
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.cloud.core.model.TblAdmCardauthlogExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tbl_adm_cardauthlog
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from tbl_adm_cardauthlog
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from tbl_adm_cardauthlog
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.cloud.core.model.TblAdmCardauthlogExample" >
+    delete from tbl_adm_cardauthlog
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.cloud.core.model.TblAdmCardauthlog" >
+    insert into tbl_adm_cardauthlog (id, CAL_AUTH_BANK_NAME, CAL_AUTH_BANK_CARD, 
+      CAL_AUTH_CUST_NAME, CAL_AUTH_IDNO, CAL_AUTH_MOBILE, 
+      CAL_AUTH_TYPE, create_date, update_date, 
+      creator, updator)
+    values (#{id,jdbcType=BIGINT}, #{calAuthBankName,jdbcType=VARCHAR}, #{calAuthBankCard,jdbcType=VARCHAR}, 
+      #{calAuthCustName,jdbcType=VARCHAR}, #{calAuthIdno,jdbcType=VARCHAR}, #{calAuthMobile,jdbcType=VARCHAR}, 
+      #{calAuthType,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, 
+      #{creator,jdbcType=VARCHAR}, #{updator,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cloud.core.model.TblAdmCardauthlog" >
+    insert into tbl_adm_cardauthlog
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="calAuthBankName != null" >
+        CAL_AUTH_BANK_NAME,
+      </if>
+      <if test="calAuthBankCard != null" >
+        CAL_AUTH_BANK_CARD,
+      </if>
+      <if test="calAuthCustName != null" >
+        CAL_AUTH_CUST_NAME,
+      </if>
+      <if test="calAuthIdno != null" >
+        CAL_AUTH_IDNO,
+      </if>
+      <if test="calAuthMobile != null" >
+        CAL_AUTH_MOBILE,
+      </if>
+      <if test="calAuthType != null" >
+        CAL_AUTH_TYPE,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="creator != null" >
+        creator,
+      </if>
+      <if test="updator != null" >
+        updator,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="calAuthBankName != null" >
+        #{calAuthBankName,jdbcType=VARCHAR},
+      </if>
+      <if test="calAuthBankCard != null" >
+        #{calAuthBankCard,jdbcType=VARCHAR},
+      </if>
+      <if test="calAuthCustName != null" >
+        #{calAuthCustName,jdbcType=VARCHAR},
+      </if>
+      <if test="calAuthIdno != null" >
+        #{calAuthIdno,jdbcType=VARCHAR},
+      </if>
+      <if test="calAuthMobile != null" >
+        #{calAuthMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="calAuthType != null" >
+        #{calAuthType,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="updator != null" >
+        #{updator,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.cloud.core.model.TblAdmCardauthlogExample" resultType="java.lang.Integer" >
+    select count(*) from tbl_adm_cardauthlog
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update tbl_adm_cardauthlog
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.calAuthBankName != null" >
+        CAL_AUTH_BANK_NAME = #{record.calAuthBankName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.calAuthBankCard != null" >
+        CAL_AUTH_BANK_CARD = #{record.calAuthBankCard,jdbcType=VARCHAR},
+      </if>
+      <if test="record.calAuthCustName != null" >
+        CAL_AUTH_CUST_NAME = #{record.calAuthCustName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.calAuthIdno != null" >
+        CAL_AUTH_IDNO = #{record.calAuthIdno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.calAuthMobile != null" >
+        CAL_AUTH_MOBILE = #{record.calAuthMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.calAuthType != null" >
+        CAL_AUTH_TYPE = #{record.calAuthType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null" >
+        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateDate != null" >
+        update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.creator != null" >
+        creator = #{record.creator,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updator != null" >
+        updator = #{record.updator,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update tbl_adm_cardauthlog
+    set id = #{record.id,jdbcType=BIGINT},
+      CAL_AUTH_BANK_NAME = #{record.calAuthBankName,jdbcType=VARCHAR},
+      CAL_AUTH_BANK_CARD = #{record.calAuthBankCard,jdbcType=VARCHAR},
+      CAL_AUTH_CUST_NAME = #{record.calAuthCustName,jdbcType=VARCHAR},
+      CAL_AUTH_IDNO = #{record.calAuthIdno,jdbcType=VARCHAR},
+      CAL_AUTH_MOBILE = #{record.calAuthMobile,jdbcType=VARCHAR},
+      CAL_AUTH_TYPE = #{record.calAuthType,jdbcType=VARCHAR},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      creator = #{record.creator,jdbcType=VARCHAR},
+      updator = #{record.updator,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cloud.core.model.TblAdmCardauthlog" >
+    update tbl_adm_cardauthlog
+    <set >
+      <if test="calAuthBankName != null" >
+        CAL_AUTH_BANK_NAME = #{calAuthBankName,jdbcType=VARCHAR},
+      </if>
+      <if test="calAuthBankCard != null" >
+        CAL_AUTH_BANK_CARD = #{calAuthBankCard,jdbcType=VARCHAR},
+      </if>
+      <if test="calAuthCustName != null" >
+        CAL_AUTH_CUST_NAME = #{calAuthCustName,jdbcType=VARCHAR},
+      </if>
+      <if test="calAuthIdno != null" >
+        CAL_AUTH_IDNO = #{calAuthIdno,jdbcType=VARCHAR},
+      </if>
+      <if test="calAuthMobile != null" >
+        CAL_AUTH_MOBILE = #{calAuthMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="calAuthType != null" >
+        CAL_AUTH_TYPE = #{calAuthType,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null" >
+        creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="updator != null" >
+        updator = #{updator,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cloud.core.model.TblAdmCardauthlog" >
+    update tbl_adm_cardauthlog
+    set CAL_AUTH_BANK_NAME = #{calAuthBankName,jdbcType=VARCHAR},
+      CAL_AUTH_BANK_CARD = #{calAuthBankCard,jdbcType=VARCHAR},
+      CAL_AUTH_CUST_NAME = #{calAuthCustName,jdbcType=VARCHAR},
+      CAL_AUTH_IDNO = #{calAuthIdno,jdbcType=VARCHAR},
+      CAL_AUTH_MOBILE = #{calAuthMobile,jdbcType=VARCHAR},
+      CAL_AUTH_TYPE = #{calAuthType,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      creator = #{creator,jdbcType=VARCHAR},
+      updator = #{updator,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
