@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.cloud.order.account.mapper.TblAccountMapper">
-  <resultMap id="BaseResultMap" type="com.cloud.order.account.model.TblAccount">
+<mapper namespace="com.cloud.account.mapper.TblAccountMapper">
+  <resultMap id="BaseResultMap" type="com.cloud.account.model.TblAccount">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="account_no" jdbcType="VARCHAR" property="accountNo" />
     <result column="account_name" jdbcType="VARCHAR" property="accountName" />
@@ -78,7 +78,7 @@
     id, account_no, account_name, account_phone, account_email, account_amount, account_sex, 
     account_status, create_date, update_date, creator, updator, is_deleted
   </sql>
-  <select id="selectByExample" parameterType="com.cloud.order.account.model.TblAccountExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.cloud.account.model.TblAccountExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -102,13 +102,13 @@
     delete from tbl_account
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="com.cloud.order.account.model.TblAccountExample">
+  <delete id="deleteByExample" parameterType="com.cloud.account.model.TblAccountExample">
     delete from tbl_account
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.cloud.order.account.model.TblAccount">
+  <insert id="insert" parameterType="com.cloud.account.model.TblAccount">
     insert into tbl_account (id, account_no, account_name, 
       account_phone, account_email, account_amount, 
       account_sex, account_status, create_date, 
@@ -120,7 +120,7 @@
       #{updateDate,jdbcType=TIMESTAMP}, #{creator,jdbcType=VARCHAR}, #{updator,jdbcType=VARCHAR}, 
       #{isDeleted,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.cloud.order.account.model.TblAccount">
+  <insert id="insertSelective" parameterType="com.cloud.account.model.TblAccount">
     insert into tbl_account
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -205,7 +205,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.cloud.order.account.model.TblAccountExample" resultType="java.lang.Integer">
+  <select id="countByExample" parameterType="com.cloud.account.model.TblAccountExample" resultType="java.lang.Integer">
     select count(*) from tbl_account
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -277,7 +277,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.cloud.order.account.model.TblAccount">
+  <update id="updateByPrimaryKeySelective" parameterType="com.cloud.account.model.TblAccount">
     update tbl_account
     <set>
       <if test="accountNo != null">
@@ -319,7 +319,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.cloud.order.account.model.TblAccount">
+  <update id="updateByPrimaryKey" parameterType="com.cloud.account.model.TblAccount">
     update tbl_account
     set account_no = #{accountNo,jdbcType=VARCHAR},
       account_name = #{accountName,jdbcType=VARCHAR},
