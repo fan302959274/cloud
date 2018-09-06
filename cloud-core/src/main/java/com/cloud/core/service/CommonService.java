@@ -11,7 +11,7 @@ public interface CommonService {
     public String getBusinessId();
 
     /**
-     * @description 获取序列号
+     * @description 获取流水号
      * @author sh00859
      * @date 2017/7/13
      */

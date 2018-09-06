@@ -1,6 +1,7 @@
 package com.cloud.account.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.cloud.account.fegin.CommonService;
 import com.cloud.account.mapper.TblAccountMapper;
 import com.cloud.account.model.TblAccount;
 import com.cloud.account.model.TblAccountExample;
@@ -27,6 +28,8 @@ public class AmountServiceImpl implements AmountService {
     private TblAccountMapper tblAccountMapper;
     @Autowired
     private KafkaTemplate<String, String> template;
+    @Autowired
+    private CommonService commonService;
 
 
     @Override
@@ -40,9 +43,10 @@ public class AmountServiceImpl implements AmountService {
             Assert.isTrue(CollectionUtils.isNotEmpty(tblAccountMapper.selectByExample(example)), "未获取到客户");
             tblAccountMapper.updateByExampleSelective(record, example);
             Map map = new HashMap();
-            map.put("accountNo",accountNo);
-            map.put("amount",amount);
-            map.put("oldAmount",tblAccountMapper.selectByExample(example).get(0).getAccountAmount());
+            map.put("transNo", commonService.getSerialNo("order"));
+            map.put("accountNo", accountNo);
+            map.put("amount", amount);
+            map.put("oldAmount", tblAccountMapper.selectByExample(example).get(0).getAccountAmount());
             //通知订单修改订单状态为支付完成
             template.send("ORDER_NOTIFY", JSONObject.toJSONString(map));
             resp.setResult(tblAccountMapper.selectByExample(example).get(0));
