@@ -1,5 +1,6 @@
 package com.cloud.account.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.cloud.account.mapper.TblAccountMapper;
 import com.cloud.account.model.TblAccount;
 import com.cloud.account.model.TblAccountExample;
@@ -9,17 +10,24 @@ import com.cloud.common.resp.ResponseCode;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class AmountServiceImpl implements AmountService {
     Logger logger = LoggerFactory.getLogger(this.getClass());
     @Resource
     private TblAccountMapper tblAccountMapper;
+    @Autowired
+    private KafkaTemplate<String, String> template;
+
 
     @Override
     public CommonResp<TblAccount> operateAmount(String accountNo, BigDecimal amount) {
@@ -31,6 +39,9 @@ public class AmountServiceImpl implements AmountService {
             example.createCriteria().andAccountNoEqualTo(accountNo);
             Assert.isTrue(CollectionUtils.isNotEmpty(tblAccountMapper.selectByExample(example)), "未获取到客户");
             tblAccountMapper.updateByExampleSelective(record, example);
+            Map map = new HashMap();
+            map.put("type","type1");
+            template.send("ORDER_NOTIFY", JSONObject.toJSONString(map));
             resp.setResult(tblAccountMapper.selectByExample(example).get(0));
             return resp;
         } catch (IllegalArgumentException e) {
