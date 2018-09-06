@@ -11,7 +11,7 @@ public class Listener {
     protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 
-    @KafkaListener(topics = {"ORDER_NOTIFY", "testKJ1"})
+    @KafkaListener(topics = {"ORDER_NOTIFY"})
     public void listen(ConsumerRecord<?, ?> record) {
 
         logger.info("kafka的topic: " + record.topic());
