@@ -7,6 +7,7 @@
     <result column="account_name" jdbcType="VARCHAR" property="accountName" />
     <result column="account_phone" jdbcType="VARCHAR" property="accountPhone" />
     <result column="account_email" jdbcType="VARCHAR" property="accountEmail" />
+    <result column="account_point" jdbcType="DECIMAL" property="accountPoint" />
     <result column="account_amount" jdbcType="DECIMAL" property="accountAmount" />
     <result column="account_sex" jdbcType="VARCHAR" property="accountSex" />
     <result column="account_status" jdbcType="VARCHAR" property="accountStatus" />
@@ -75,8 +76,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, account_no, account_name, account_phone, account_email, account_amount, account_sex, 
-    account_status, create_date, update_date, creator, updator, is_deleted
+    id, account_no, account_name, account_phone, account_email, account_point, account_amount, 
+    account_sex, account_status, create_date, update_date, creator, updator, is_deleted
   </sql>
   <select id="selectByExample" parameterType="com.cloud.account.model.TblAccountExample" resultMap="BaseResultMap">
     select
@@ -110,15 +111,15 @@
   </delete>
   <insert id="insert" parameterType="com.cloud.account.model.TblAccount">
     insert into tbl_account (id, account_no, account_name, 
-      account_phone, account_email, account_amount, 
-      account_sex, account_status, create_date, 
-      update_date, creator, updator, 
-      is_deleted)
+      account_phone, account_email, account_point, 
+      account_amount, account_sex, account_status, 
+      create_date, update_date, creator, 
+      updator, is_deleted)
     values (#{id,jdbcType=BIGINT}, #{accountNo,jdbcType=VARCHAR}, #{accountName,jdbcType=VARCHAR}, 
-      #{accountPhone,jdbcType=VARCHAR}, #{accountEmail,jdbcType=VARCHAR}, #{accountAmount,jdbcType=DECIMAL}, 
-      #{accountSex,jdbcType=VARCHAR}, #{accountStatus,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
-      #{updateDate,jdbcType=TIMESTAMP}, #{creator,jdbcType=VARCHAR}, #{updator,jdbcType=VARCHAR}, 
-      #{isDeleted,jdbcType=VARCHAR})
+      #{accountPhone,jdbcType=VARCHAR}, #{accountEmail,jdbcType=VARCHAR}, #{accountPoint,jdbcType=DECIMAL}, 
+      #{accountAmount,jdbcType=DECIMAL}, #{accountSex,jdbcType=VARCHAR}, #{accountStatus,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, #{creator,jdbcType=VARCHAR}, 
+      #{updator,jdbcType=VARCHAR}, #{isDeleted,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.cloud.account.model.TblAccount">
     insert into tbl_account
@@ -137,6 +138,9 @@
       </if>
       <if test="accountEmail != null">
         account_email,
+      </if>
+      <if test="accountPoint != null">
+        account_point,
       </if>
       <if test="accountAmount != null">
         account_amount,
@@ -178,6 +182,9 @@
       </if>
       <if test="accountEmail != null">
         #{accountEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="accountPoint != null">
+        #{accountPoint,jdbcType=DECIMAL},
       </if>
       <if test="accountAmount != null">
         #{accountAmount,jdbcType=DECIMAL},
@@ -229,6 +236,9 @@
       <if test="record.accountEmail != null">
         account_email = #{record.accountEmail,jdbcType=VARCHAR},
       </if>
+      <if test="record.accountPoint != null">
+        account_point = #{record.accountPoint,jdbcType=DECIMAL},
+      </if>
       <if test="record.accountAmount != null">
         account_amount = #{record.accountAmount,jdbcType=DECIMAL},
       </if>
@@ -265,6 +275,7 @@
       account_name = #{record.accountName,jdbcType=VARCHAR},
       account_phone = #{record.accountPhone,jdbcType=VARCHAR},
       account_email = #{record.accountEmail,jdbcType=VARCHAR},
+      account_point = #{record.accountPoint,jdbcType=DECIMAL},
       account_amount = #{record.accountAmount,jdbcType=DECIMAL},
       account_sex = #{record.accountSex,jdbcType=VARCHAR},
       account_status = #{record.accountStatus,jdbcType=VARCHAR},
@@ -291,6 +302,9 @@
       </if>
       <if test="accountEmail != null">
         account_email = #{accountEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="accountPoint != null">
+        account_point = #{accountPoint,jdbcType=DECIMAL},
       </if>
       <if test="accountAmount != null">
         account_amount = #{accountAmount,jdbcType=DECIMAL},
@@ -325,6 +339,7 @@
       account_name = #{accountName,jdbcType=VARCHAR},
       account_phone = #{accountPhone,jdbcType=VARCHAR},
       account_email = #{accountEmail,jdbcType=VARCHAR},
+      account_point = #{accountPoint,jdbcType=DECIMAL},
       account_amount = #{accountAmount,jdbcType=DECIMAL},
       account_sex = #{accountSex,jdbcType=VARCHAR},
       account_status = #{accountStatus,jdbcType=VARCHAR},

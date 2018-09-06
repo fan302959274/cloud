@@ -1,11 +1,9 @@
 package com.cloud.account.mapper;
 
-
 import com.cloud.account.model.TblAccount;
 import com.cloud.account.model.TblAccountExample;
-import org.apache.ibatis.annotations.Param;
-
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 public interface TblAccountMapper {
     int countByExample(TblAccountExample example);

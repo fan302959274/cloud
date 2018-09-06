@@ -446,6 +446,66 @@ public class TblAccountExample {
             return (Criteria) this;
         }
 
+        public Criteria andAccountPointIsNull() {
+            addCriterion("account_point is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAccountPointIsNotNull() {
+            addCriterion("account_point is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAccountPointEqualTo(BigDecimal value) {
+            addCriterion("account_point =", value, "accountPoint");
+            return (Criteria) this;
+        }
+
+        public Criteria andAccountPointNotEqualTo(BigDecimal value) {
+            addCriterion("account_point <>", value, "accountPoint");
+            return (Criteria) this;
+        }
+
+        public Criteria andAccountPointGreaterThan(BigDecimal value) {
+            addCriterion("account_point >", value, "accountPoint");
+            return (Criteria) this;
+        }
+
+        public Criteria andAccountPointGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("account_point >=", value, "accountPoint");
+            return (Criteria) this;
+        }
+
+        public Criteria andAccountPointLessThan(BigDecimal value) {
+            addCriterion("account_point <", value, "accountPoint");
+            return (Criteria) this;
+        }
+
+        public Criteria andAccountPointLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("account_point <=", value, "accountPoint");
+            return (Criteria) this;
+        }
+
+        public Criteria andAccountPointIn(List<BigDecimal> values) {
+            addCriterion("account_point in", values, "accountPoint");
+            return (Criteria) this;
+        }
+
+        public Criteria andAccountPointNotIn(List<BigDecimal> values) {
+            addCriterion("account_point not in", values, "accountPoint");
+            return (Criteria) this;
+        }
+
+        public Criteria andAccountPointBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("account_point between", value1, value2, "accountPoint");
+            return (Criteria) this;
+        }
+
+        public Criteria andAccountPointNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("account_point not between", value1, value2, "accountPoint");
+            return (Criteria) this;
+        }
+
         public Criteria andAccountAmountIsNull() {
             addCriterion("account_amount is null");
             return (Criteria) this;

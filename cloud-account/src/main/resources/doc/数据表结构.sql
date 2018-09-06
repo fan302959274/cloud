@@ -5,13 +5,15 @@ CREATE TABLE `tbl_account` (
   COMMENT '客户编号',
   `account_name`   VARCHAR(100)        DEFAULT NULL
   COMMENT '客户名称',
-  `account_phone`   VARCHAR(100)        DEFAULT NULL
+  `account_phone`  VARCHAR(100)        DEFAULT NULL
   COMMENT '客户手机号',
-  `account_email`   VARCHAR(100)        DEFAULT NULL
+  `account_email`  VARCHAR(100)        DEFAULT NULL
   COMMENT '客户邮箱',
+  `account_point`  DECIMAL(50, 2)      DEFAULT NULL
+  COMMENT '客户积分',
   `account_amount` DECIMAL(50, 2)      DEFAULT NULL
   COMMENT '账户余额',
-  `account_sex`    VARCHAR(2)             DEFAULT NULL
+  `account_sex`    VARCHAR(2)          DEFAULT NULL
   COMMENT '客户性别',
   `account_status` VARCHAR(100)        DEFAULT NULL
   COMMENT '客户状态',

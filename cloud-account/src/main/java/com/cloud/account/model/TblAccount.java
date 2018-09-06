@@ -14,6 +14,8 @@ public class TblAccount {
 
     private String accountEmail;
 
+    private BigDecimal accountPoint;
+
     private BigDecimal accountAmount;
 
     private String accountSex;
@@ -68,6 +70,14 @@ public class TblAccount {
 
     public void setAccountEmail(String accountEmail) {
         this.accountEmail = accountEmail;
+    }
+
+    public BigDecimal getAccountPoint() {
+        return accountPoint;
+    }
+
+    public void setAccountPoint(BigDecimal accountPoint) {
+        this.accountPoint = accountPoint;
     }
 
     public BigDecimal getAccountAmount() {
