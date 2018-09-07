@@ -37,8 +37,8 @@ public class AmountController {
      */
     @RequestMapping("/operate")
     @ResponseBody
-    public CommonResp<TblAccount> operate(@RequestParam(value = "accountNo", required = true) String accountNo, @RequestParam(value = "amount", required = true) BigDecimal amount) {
-        return amountService.operateAmount(accountNo, amount);
+    public CommonResp<TblAccount> operate(@RequestParam(value = "orderNo", required = true) String orderNo,@RequestParam(value = "accountNo", required = true) String accountNo, @RequestParam(value = "amount", required = true) BigDecimal amount) {
+        return amountService.operateAmount(orderNo,accountNo, amount);
     }
 
 

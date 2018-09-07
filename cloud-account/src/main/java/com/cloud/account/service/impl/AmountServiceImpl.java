@@ -10,6 +10,7 @@ import com.cloud.account.model.TblAccountExample;
 import com.cloud.account.model.TblCapMessage;
 import com.cloud.account.model.TblCapMessageExample;
 import com.cloud.account.service.AmountService;
+import com.cloud.common.entity.message.AccountMsg;
 import com.cloud.common.resp.CommonResp;
 import com.cloud.common.resp.ResponseCode;
 import org.apache.commons.collections.CollectionUtils;
@@ -22,8 +23,6 @@ import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 public class AmountServiceImpl implements AmountService {
@@ -41,10 +40,10 @@ public class AmountServiceImpl implements AmountService {
     @Override
     public CommonResp<TblAccount> operateAmount(String orderNo, String accountNo, BigDecimal amount) {
         CommonResp<TblAccount> resp = new CommonResp<>();
-        String serialNo = commonService.getSerialNo("order");
+        String messageNo = commonService.getSerialNo("order");
         try {
             //1、更新金额
-            Assert.notNull(serialNo, "未获取到流水号");
+            Assert.notNull(messageNo, "未获取到流水号");
             TblAccount record = new TblAccount();
             record.setAccountAmount(amount);
             TblAccountExample example = new TblAccountExample();
@@ -52,13 +51,6 @@ public class AmountServiceImpl implements AmountService {
             Assert.isTrue(CollectionUtils.isNotEmpty(tblAccountMapper.selectByExample(example)), "未获取到客户");
             tblAccountMapper.updateByExampleSelective(record, example);
             resp.setResult(tblAccountMapper.selectByExample(example).get(0));
-            Map map = new HashMap();
-            map.put("transNo", serialNo);
-            map.put("orderNo", orderNo);
-            map.put("accountNo", accountNo);
-            map.put("orderStatus", "S");
-
-            String msgBody = JSONObject.toJSONString(map);
             //2、保存消息
             TblCapMessage message = new TblCapMessage();
             AccountRollBackEntity accountRollBackEntity = new AccountRollBackEntity();
@@ -66,25 +58,32 @@ public class AmountServiceImpl implements AmountService {
             accountRollBackEntity.setAmount(amount);
             accountRollBackEntity.setOldAmount(tblAccountMapper.selectByExample(example).get(0).getAccountAmount());
             accountRollBackEntity.setOrderNo(orderNo);
-            accountRollBackEntity.setSerialNo(serialNo);
-            message.setMessageNo(serialNo);
+            accountRollBackEntity.setSerialNo(messageNo);
+            message.setMessageNo(messageNo);
             message.setMessageBody(JSONObject.toJSONString(accountRollBackEntity));
             tblCapMessageMapper.insertSelective(message);
             //3、通知订单修改订单状态为支付完成
-            template.send("ORDER_NOTIFY", msgBody);
+            AccountMsg accountMsg = new AccountMsg();
+            accountMsg.setAccountNo(accountNo);
+            accountMsg.setMessageNo(messageNo);
+            accountMsg.setOrderNo(orderNo);
+            accountMsg.setOperateType("UPDATEORDER");
+            accountMsg.setOrderStatus("S");
+            accountMsg.setAccountNo(accountNo);
+            template.send("acct-uni-notice-topic", JSONObject.toJSONString(accountMsg));
         } catch (IllegalArgumentException e) {
             resp.setCode(ResponseCode.SYSTEM_ERROR.getCode());
             resp.setMsg(e.getMessage());
             resp.setResult(null);
             TblCapMessageExample example = new TblCapMessageExample();
-            example.createCriteria().andMessageNoEqualTo(serialNo);
+            example.createCriteria().andMessageNoEqualTo(messageNo);
             tblCapMessageMapper.deleteByExample(example);
         } catch (Exception e) {
             resp.setCode(ResponseCode.SYSTEM_ERROR.getCode());
             resp.setMsg(ResponseCode.SYSTEM_ERROR.getMsg());
             resp.setResult(null);
             TblCapMessageExample example = new TblCapMessageExample();
-            example.createCriteria().andMessageNoEqualTo(serialNo);
+            example.createCriteria().andMessageNoEqualTo(messageNo);
             tblCapMessageMapper.deleteByExample(example);
         } finally {
             return resp;
