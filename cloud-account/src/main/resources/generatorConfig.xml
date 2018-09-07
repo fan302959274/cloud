@@ -47,7 +47,9 @@
         <!--<table tableName="tbl_auth_role_permission"/>-->
         <!--<table tableName="tbl_auth_user_role"/>-->
 
-        <table tableName="tbl_account"/>
+        <!--<table tableName="tbl_account"/>-->
+        <table tableName="tbl_cap_message"/>
+        <table tableName="tbl_cap_message_consume"/>
 
 
     </context>

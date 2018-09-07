@@ -17,7 +17,7 @@ public interface AmountService {
      * @author sh00859
      * @date 2018/9/6
      */
-    public CommonResp<TblAccount> operateAmount(String accountNo, BigDecimal amount);
+    public CommonResp<TblAccount> operateAmount(String orderNo,String accountNo, BigDecimal amount);
 
 
 }
