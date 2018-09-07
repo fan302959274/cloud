@@ -1,0 +1,2 @@
+1、发送消息的一方记录发送的消息tbl_cap_message,接收消息的一方记录消费过的消息tbl_cap_message_consume
+消费完成之后通知发送方删除记录的发送的消息
