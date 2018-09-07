@@ -57,8 +57,11 @@ public class CardAuthLogServiceImpl implements CardAuthLogService {
                     criteria.andCalAuthBankCardEqualTo(pageReq.getCalAuthBankCard());
                 }
             }
+            long starttime = System.currentTimeMillis();
             List<TblAdmCardauthlog> list = tblAdmCardauthlogMapper.selectByExample(example);
             Integer total = tblAdmCardauthlogMapper.countByExample(example);
+            long endtime = System.currentTimeMillis();
+            logger.info("search cost time:{}", endtime - starttime);
             resp.setCountPage(total % limit == 0 ? total / limit : (total / limit + 1));
             resp.setCount(total);
             resp.setOffset((page - 1) * limit);
