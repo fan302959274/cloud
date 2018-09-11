@@ -1,1 +1,6 @@
-1、本版本的oauth2由于包版本的问题需要前台在请求时的Header中带上accept application/json不然默认会被jackson-dataformat-xml转换为xml格式
+1、参数校验
+2、token处理
+3、统一认证管理
+<1>.用户登录统一管理，权限各个子系统分别处理，初始配置一个admin用户
+<2>.统一配置对各个子系统的访问权限
+4、路由转发
