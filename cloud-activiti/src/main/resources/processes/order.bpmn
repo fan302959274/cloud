@@ -17,7 +17,9 @@
     <sequenceFlow id="_12" sourceRef="_3" targetRef="_4"/>
     <sequenceFlow id="_16" sourceRef="_7" targetRef="_9"/>
     <sequenceFlow id="_17" sourceRef="_9" targetRef="_10"/>
-    <sequenceFlow id="_19" sourceRef="_14" targetRef="_6"/>
+    <sequenceFlow id="_19" sourceRef="_14" targetRef="_6">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${passfk1==true}]]></conditionExpression>
+    </sequenceFlow>
     <sequenceFlow id="_20" name="退回补件" sourceRef="_14" targetRef="_3">
       <documentation id="_20_D_1"/>
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${passfk1==false}]]></conditionExpression>
