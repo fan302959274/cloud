@@ -7,6 +7,8 @@
       <extensionElements>
         <activiti:executionListener class="com.example.demo.flow.ManualTask" event="start"/>
         <activiti:executionListener class="com.example.demo.flow.ManualTask" event="end"/>
+        <activiti:executionListener class="com.cloud.activiti.flow.HelloWorld" event="start"/>
+        <activiti:executionListener class="com.cloud.activiti.flow.HelloWorld" event="start"/>
       </extensionElements>
     </manualTask>
     <sequenceFlow id="_12" sourceRef="_2" targetRef="_10"/>
